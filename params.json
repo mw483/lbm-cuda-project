@@ -1,0 +1,10 @@
+{
+    "Time": 75005,
+    "time_coef": 0.01,
+    "velocity_lbm": 5.0,
+    "length": [1024, 256, 160],
+    "max_particles": 20000000,
+    "flag_particle_generate": 1,
+    "pout": 100,
+    "generate_step": 100
+}
