@@ -42,7 +42,7 @@ user_output {
 namespace
 user_flags	{
 	#include "definePrecision.h"
-	const int flg_buoyancy=1;	// buoyancy force 		1:on, otherwise:off
+	const int flg_buoyancy=0;	// buoyancy force 		1:on, otherwise:off
 	const int flg_scalar=2;		// scalar			1:on, otherwise:off, 2:homongeneous from horizontal surfaces
 					//  >> need "input" files (surface flux data)
 	const int flg_dpdx=0;		// Pressure gradient in x 	1:on, otherwise:off
