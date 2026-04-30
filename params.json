@@ -1,6 +1,7 @@
 {
     "map": {
-        "path": "./map/map_flat_small.dat"
+        "path": "./map/map_flat_small.dat",
+        "physical_dx": 2.0
     },
     "runlbm.sh": {
         "Time": 75005,
@@ -32,5 +33,23 @@
             "flg_scalar": 2,
             "flg_particle": 1
         }
+    },
+    "particles": {
+        "spacing_x": 16.0,
+        "spacing_y": 16.0,
+        "heights": [0.1],
+        "velocity": [0.0, 0.0, 0.1],
+        "group": 1,
+        "x_max_ratio": 1.0,
+        "y_padding": 0.0, 
+        "filename_pos": "particle_position.txt",
+        "filename_num": "particle_number.txt"
+    },
+    "read_particle_box": {
+        "pstart": 0,
+        "pnum": 1000,
+        "num_g": [50, 50, 5],
+        "point_g": [0.0, 0.0, 5.0],
+        "vec_g": [1000.0, 1000.0, 256.0]
     }
 }

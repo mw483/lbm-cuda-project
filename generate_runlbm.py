@@ -1,5 +1,6 @@
 import json
 import os
+import numpy as np
 
 def load_params(filepath):
     with open(filepath, 'r') as f:
@@ -137,6 +138,148 @@ def generate_param_fluid(params):
         
     print(f"paramFluidProperty.cu generated successfully. (Map path set to: {m_path})")
 
+class ParticleGenerator:
+    """
+    Generates particle source files for LBM simulation.
+    Features:
+    - Uniform grid generation (Ignores obstacles/blocks).
+    - Configurable generation area (X and Y limits).
+    - Custom ID formatting (Source_Index * 10000 + 1).
+    """
+    def __init__(self, domain_x_m, domain_y_m, output_dir):
+        self.Lx = domain_x_m
+        self.Ly = domain_y_m
+        self.output_dir = output_dir
+        
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    def generate_sources(self, spacing_x, spacing_y, heights, 
+                         velocity=(0.0, 0.0, 0.13), group_number=1,
+                         x_max_m=None, y_min_m=0.0, y_max_m=None,
+                         filename_pos="particle_position_sourcearea_groundonly_sparse.txt", filename_num="particle_number_sourcearea_groundonly_sparse.txt"):
+        """
+        Generates particles in a uniform grid within specified limits.
+        
+        Args:
+            spacing_x, spacing_y (float): Spacing in meters.
+            heights (list): Z-levels.
+            x_max_m (float): Max X limit. Defaults to Lx / 1.333 if None.
+            y_min_m (float): Min Y limit. Defaults to 0.
+            y_max_m (float): Max Y limit. Defaults to Ly if None.
+        """
+        
+        # --- Default Limits ---
+        if x_max_m is None:
+            x_max_m = self.Lx / 1.333
+        if y_max_m is None:
+            y_max_m = self.Ly
+
+        print(f"--- Generating Uniform Particles ---")
+        print(f"Spacing: dx={spacing_x}m, dy={spacing_y}m")
+        print(f"Heights: {heights}")
+        print(f"Area Limits: X[0.0 to {x_max_m:.2f}], Y[{y_min_m:.2f} to {y_max_m:.2f}]")
+        
+        particles = []
+        u, v, w = velocity
+        
+        # --- 1. Define Grid ---
+        # Strategy: Generate grid for the whole requested max area, then filter.
+        # This keeps the grid aligned to 0.0 regardless of where you start clipping y.
+        
+        # Generate raw coords (anchored to 0.0 + half spacing)
+        # We generate up to x_max_m
+        raw_x = np.arange(spacing_x/2, x_max_m, spacing_x)
+        
+        # We generate up to y_max_m (full width generation then trim is safer for alignment)
+        raw_y = np.arange(spacing_y/2, self.Ly, spacing_y)
+        
+        # Filter Y coordinates to be within [y_min_m, y_max_m]
+        # This preserves the grid alignment (e.g. 2.0, 6.0, 10.0...) even if you start at y=5.0
+        y_coords = raw_y[(raw_y >= y_min_m) & (raw_y <= y_max_m)]
+        x_coords = raw_x # Already limited by arange stop
+        
+        print(f"Grid Size: {len(x_coords)} columns x {len(y_coords)} rows x {len(heights)} heights")
+
+        # --- 2. Iterate and Generate ---
+        source_index = 1
+        
+        for x in x_coords:
+            for y in y_coords:
+                for z in heights:
+                    
+                    # Source 1 -> 10001, Source 2 -> 20001
+                    current_id = (source_index * 10000) + 1
+                    
+                    # Add Particle
+                    p_data = (x, y, z, u, v, w, group_number, current_id)
+                    particles.append(p_data)
+                    
+                    source_index += 1
+
+        # --- Summary ---
+        print(f"Generated: {len(particles)} sources")
+        print(f"Last ID: {current_id}")
+        
+        # --- Write Files ---
+        filepath_pos = os.path.join(self.output_dir, filename_pos)
+        print(f"Writing positions to: {filepath_pos}")
+        with open(filepath_pos, 'w') as f:
+            for p in particles:
+                # Format: x y z u v w group id
+                line = f"{p[0]:.6f}\t{p[1]:.6f}\t{p[2]:.6f}\t{p[3]:.6f}\t{p[4]:.6f}\t{p[5]:.6f}\t{p[6]}\t{p[7]}\n"
+                f.write(line)
+                
+        filepath_num = os.path.join(self.output_dir, filename_num)
+        print(f"Writing count to: {filepath_num}")
+        with open(filepath_num, 'w') as f:
+            f.write(str(len(particles)))
+            
+        print("Done.")
+
+def generate_particles(params, nx, ny):
+    p_part = params['particles']
+    p_map = params['map']
+
+    domain_x_m = nx * p_map['physical_dx']
+    domain_y_m = ny * p_map['physical_dx']
+
+    output_dir = "./particle_position"
+
+    gen = ParticleGenerator(domain_x_m, domain_y_m, output_dir)
+
+    x_limit = domain_x_m / p_part['x_max_ratio']
+    y_min = p_part['y_padding']
+    y_max = domain_y_m - p_part['y_padding']
+
+    gen.generate_sources(
+        spacing_x=p_part['spacing_x'], 
+        spacing_y=p_part['spacing_y'], 
+        heights=p_part['heights'], 
+        velocity=tuple(p_part['velocity']), 
+        group_number=p_part['group'],
+        x_max_m=x_limit, 
+        y_min_m=y_min, 
+        y_max_m=y_max,
+        filename_pos=p_part['filename_pos'],
+        filename_num=p_part['filename_num']
+    )
+
+def generate_read_particle_box(params):
+    p_read = params['read_particle_box']
+    output_dir = "./read_particle_box"
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Format the numbers exactly as the C++ stream expects them
+    content = f"{p_read['pstart']} \t {p_read['pnum']}\n"
+    content += f"{p_read['num_g'][0]} \t {p_read['num_g'][1]} \t {p_read['num_g'][2]}\n"
+    content += f"{p_read['point_g'][0]:.6f} \t {p_read['point_g'][1]:.6f} \t {p_read['point_g'][2]:.6f}\n"
+    content += f"{p_read['vec_g'][0]:.6f} \t {p_read['vec_g'][1]:.6f} \t {p_read['vec_g'][2]:.6f}\n"
+    
+    with open(os.path.join(output_dir, "read_particle_box.txt"), 'w') as f:
+        f.write(content)
+        
+    print("read_particle_box.txt generated successfully.")
+
 if __name__ == "__main__":
     data = load_params("params.json")
 
@@ -148,3 +291,5 @@ if __name__ == "__main__":
         generate_sh(data, nx, ny)
         generate_define_user(data)
         generate_param_fluid(data)
+        generate_particles(data, nx, ny)
+        generate_read_particle_box(data)
