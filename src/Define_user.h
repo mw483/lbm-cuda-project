@@ -26,13 +26,13 @@ user_output {
         #include "definePrecision.h"
         const FLOAT     average_interval        = 200.0;                //(sec)
         const FLOAT     skip_time               = 0.0;          //(sec)
-        const FLOAT     output_interval_ins     = 200.0;                //(sec)
+        const FLOAT     output_interval_ins     = {{OUT_INT_INST}};                //(sec)
         const FLOAT     time_output_ins_ini     = 0.0;          //(sec)
         const int       nz_out                  = 3;            // number of planes to be output (xy)
         const int       nj_out                  = 1;            // number of planes to be output (xz)
         const int       ni_out                  = 1;            // number of planes to be output (yz)
         const int       nv_out                  = 0;            // number of ranks to be out (volume output)
-        const int kout[] = {78, 79, 80}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
+        const int kout[] = {10, 20, 30}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
         const int jout[] = {64};
         const int iout[] = {256};
         const int       vout_rank[] = {};                       // volume output

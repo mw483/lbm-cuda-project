@@ -61,9 +61,9 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
 
 def generate_define_user(params):
     p_h = params['Define_user.h']
-    p_init = p_h['user_init']
-    p_out = p_h['user_output']
-    p_flags = p_h['user_flags']
+    p_init = p_h['init']
+    p_out = p_h['output']
+    p_flags = p_h['flags']
 
     # 1. Format the arrays for C++ syntax: [1, 2] -> "{1, 2}"
     kout_str = "{" + ", ".join(map(str, p_out['kout'])) + "}"
