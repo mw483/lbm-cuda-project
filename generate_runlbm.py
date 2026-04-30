@@ -114,6 +114,29 @@ def generate_define_user(params):
         
     print(f"Define_user.h generated successfully. (nz_out auto-set to {len(p_out['kout'])})")
 
+def generate_param_fluid(params):
+    # Extract the map path directly from the JSON
+    m_path = params['map']['path']
+    
+    template_path = "./src/paramFluidProperty.cu.template"
+    if not os.path.exists(template_path):
+        print(f"Error: Template not found at {template_path}")
+        return
+
+    # Read the template
+    with open(template_path, 'r') as f:
+        content = f.read()
+
+    # Inject the map path
+    content = content.replace("{{MAP_PATH}}", m_path)
+
+    # Write the active CUDA source file
+    output_path = "./src/paramFluidProperty.cu"
+    with open(output_path, 'w') as f:
+        f.write(content)
+        
+    print(f"paramFluidProperty.cu generated successfully. (Map path set to: {m_path})")
+
 if __name__ == "__main__":
     data = load_params("params.json")
 
@@ -124,3 +147,4 @@ if __name__ == "__main__":
         nx, ny = dims
         generate_sh(data, nx, ny)
         generate_define_user(data)
+        generate_param_fluid(data)

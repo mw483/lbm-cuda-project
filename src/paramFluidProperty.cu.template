@@ -486,7 +486,7 @@ read_map (
 		char name[100];
 
 		std::ifstream fin;
-		sprintf(name, "./map/map_flat_small.dat");
+		sprintf(name, "{{MAP_PATH}}");
 
 		std::cout << "fin open (map)\n";
 		fin.open(name, std::ios::in);
