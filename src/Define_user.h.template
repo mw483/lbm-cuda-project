@@ -26,7 +26,7 @@ user_output {
         #include "definePrecision.h"
         const FLOAT     average_interval        = {{AVG_INT}};                //(sec)
         const FLOAT     skip_time               = {{SKIP_TIME}};          //(sec)
-        const FLOAT     output_interval_ins     = {{OUT_INT_INST}};                //(sec)
+        const FLOAT     output_interval_ins     = {{OUT_INT_INS}};                //(sec)
         const FLOAT     time_output_ins_ini     = {{TIME_OUT_INI}};          //(sec)
         const int       nz_out                  = {{NZ_OUT}};            // number of planes to be output (xy)
         const int       nj_out                  = {{NJ_OUT}};            // number of planes to be output (xz)
