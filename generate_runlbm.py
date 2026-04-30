@@ -59,6 +59,61 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
     os.chmod("runlbm.sh", 0o755)
     print(f"Successfully generated runlbm.sh for domain: {nx}x{ny}x{p['length_z']} and map: {map['path']}")
 
+def generate_define_user(params):
+    p_h = params['Define_user.h']
+    p_init = p_h['user_init']
+    p_out = p_h['user_output']
+    p_flags = p_h['user_flags']
+
+    # 1. Format the arrays for C++ syntax: [1, 2] -> "{1, 2}"
+    kout_str = "{" + ", ".join(map(str, p_out['kout'])) + "}"
+    jout_str = "{" + ", ".join(map(str, p_out['jout'])) + "}"
+    iout_str = "{" + ", ".join(map(str, p_out['iout'])) + "}"
+
+    # 2. Read the template
+    template_path = "./src/Define_user.h.template"
+    if not os.path.exists(template_path):
+        print(f"Error: Template not found at {template_path}")
+        return
+
+    with open(template_path, 'r') as f:
+        content = f.read()
+
+    # 3. Perform safe text replacements
+    replacements = {
+        "{{DTDZ_LOW}}": str(p_init['DTDZ_LOW']),
+        "{{DTDZ_HIGH}}": str(p_init['DTDZ_HIGH']),
+        "{{HF}}": str(p_init['hf']),
+        
+        "{{AVG_INT}}": str(p_out['average_interval']),
+        "{{SKIP_TIME}}": str(p_out['skip_time']),
+        "{{OUT_INT_INS}}": str(p_out['output_interval_ins']),
+        "{{TIME_OUT_INI}}": str(p_out['time_output_ins_ini']),
+        
+        # Auto-calculate array lengths to prevent kernel crashes
+        "{{NZ_OUT}}": str(len(p_out['kout'])),
+        "{{NJ_OUT}}": str(len(p_out['jout'])),
+        "{{NI_OUT}}": str(len(p_out['iout'])),
+        
+        "{{KOUT_ARRAY}}": kout_str,
+        "{{JOUT_ARRAY}}": jout_str,
+        "{{IOUT_ARRAY}}": iout_str,
+        
+        "{{FLG_BUOY}}": str(p_flags['flg_buoyancy']),
+        "{{FLG_SCALAR}}": str(p_flags['flg_scalar']),
+        "{{FLG_PARTICLE}}": str(p_flags['flg_particle'])
+    }
+
+    for key, val in replacements.items():
+        content = content.replace(key, val)
+
+    # 4. Write the final C++ header file
+    output_path = "./src/Define_user.h"
+    with open(output_path, 'w') as f:
+        f.write(content)
+        
+    print(f"Define_user.h generated successfully. (nz_out auto-set to {len(p_out['kout'])})")
+
 if __name__ == "__main__":
     data = load_params("params.json")
 
@@ -68,3 +123,4 @@ if __name__ == "__main__":
     if dims:
         nx, ny = dims
         generate_sh(data, nx, ny)
+        generate_define_user(data)

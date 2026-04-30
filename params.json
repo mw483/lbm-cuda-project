@@ -13,6 +13,24 @@
         "generate_step": 100
     },
     "Define_user.h": {
-        "//": "Future flags like flg_buoyancy, flg_scalar"
+        "init": {
+            "DTDZ_LOW": 0.01,
+            "DTDZ_HIGH": 0.01,
+            "hf": -0.1
+        },
+        "output": {
+            "average_interval": 200.0,
+            "skip_time": 0.0,
+            "output_interval_ins": 200.0,
+            "time_output_ins_ini": 0.0,
+            "kout": [10, 20, 30],
+            "jout": [64],
+            "iout": [256]
+        },
+        "flags": {
+            "flg_buoyancy": 0,
+            "flg_scalar": 2,
+            "flg_particle": 1
+        }
     }
 }
