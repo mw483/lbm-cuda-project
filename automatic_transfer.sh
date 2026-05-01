@@ -1,6 +1,8 @@
 PID=$(pgrep -u $(whoami) -f runlbm.sh) #PID of runlbm.sh, check the user also to make sure I am checking my simulation
-SRC="./Output"
-DEST="./20260424_output_lobsmask"
+SRC_CSV="./Output"
+SRC_PAR="./result_particle_scatter_binary"
+DEST_CSV="./20260430_output_small_test"
+DEST_PAR="./20260430_output_small_test"
 
 if [ -z "$PID" ]; then
     echo "Error: No simulation found for user $(whoami)."
@@ -15,13 +17,15 @@ else
         sleep 60
     done
     # Move operation
-    echo "Moving files to destination folder"
+    echo "Moving files to destination folders"
 
     # Ensure destination folder exists
-    mkdir -p "$DEST"
+    mkdir -p "$DEST_CSV"
+    mkdir -p "$DEST_PAR"
 
     # Move all the files to the destination
-    mv "$SRC"/* "$DEST/"
+    mv "$SRC_CSV"/* "$DEST_CSV/"
+    mv "$SRC_PAR"/* "$DEST_PAR/"
 
-    echo "Done. File moved to $DEST"
+    echo "Done. Output CSV moved to $DEST_CSV and particle binary moved to $DEST_PAR" 
 fi
