@@ -1,6 +1,6 @@
 {
     "map": {
-        "path": "./map/map_flat_small.dat",
+        "path": "./map/map_cubes_small.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {

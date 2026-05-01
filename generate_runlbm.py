@@ -20,6 +20,9 @@ def get_map_dimensions(map_path):
 def generate_sh(params, nx, ny):
     p = params['runlbm.sh']
     map = params['map']
+
+    domain_x_m = nx * map['physical_dx']
+    domain_y_m = ny * map['physical_dx']
     # Construct the multi-line command string
     # We use a f-string with backslashes for the shell script formatting
     cnn_z = int(p['length_z'] / 2)
@@ -42,7 +45,7 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
         -restart                        0 \\
         -fstart                         0 \\
         -domain_min                     -0.08   -0.08   -0.08 \\
-        -length                         {nx}     {ny}     {p['length_z']} \\
+        -length                         {domain_x_m}     {domain_y_m}     {p['length_z']} \\
         -ncpu_div                       1       1       1       1 \\
         -flag_particle_generate         {p['flag_particle_generate']} \\
         -prestart                       0 \\
@@ -58,7 +61,7 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
     
     # Make the script executable automatically
     os.chmod("runlbm.sh", 0o755)
-    print(f"Successfully generated runlbm.sh for domain: {nx}x{ny}x{p['length_z']} and map: {map['path']}")
+    print(f"Successfully generated runlbm.sh for domain: {domain_x_m}x{domain_y_m}x{p['length_z']} and map: {map['path']}")
 
 def generate_define_user(params):
     p_h = params['Define_user.h']
@@ -156,7 +159,7 @@ class ParticleGenerator:
     def generate_sources(self, spacing_x, spacing_y, heights, 
                          velocity=(0.0, 0.0, 0.13), group_number=1,
                          x_max_m=None, y_min_m=0.0, y_max_m=None,
-                         filename_pos="particle_position_sourcearea_groundonly_sparse.txt", filename_num="particle_number_sourcearea_groundonly_sparse.txt"):
+                         filename_pos="particle_position_cubes_small_test.txt", filename_num="particle_number_cubes_small_test.txt"):
         """
         Generates particles in a uniform grid within specified limits.
         

@@ -17,7 +17,7 @@ mpirun -hostfile hostfile.txt -np 1 ./run \
         -restart                        0 \
         -fstart                         0 \
         -domain_min                     -0.08   -0.08   -0.08 \
-        -length                         192     96     128 \
+        -length                         384.0     192.0     128 \
         -ncpu_div                       1       1       1       1 \
         -flag_particle_generate         1 \
         -prestart                       0 \
