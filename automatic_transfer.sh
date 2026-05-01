@@ -2,7 +2,7 @@ PID=$(pgrep -u $(whoami) -f runlbm.sh) #PID of runlbm.sh, check the user also to
 SRC_CSV="./Output"
 SRC_PAR="./result_particle_scatter_binary"
 DEST_CSV="./20260430_output_small_test"
-DEST_PAR="./20260430_output_small_test"
+DEST_PAR="./20260430_particle_small_test"
 
 if [ -z "$PID" ]; then
     echo "Error: No simulation found for user $(whoami)."
