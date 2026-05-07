@@ -5,7 +5,7 @@ export OMP_NUM_THREADS=1
 echo "gpu_linux slots=1" > hostfile.txt
 
 mpirun -hostfile hostfile.txt -np 1 ./run \
-        -Time                           75005 \
+        -Time                           25005 \
         -time_coef                      0.01 \
         -NMPI                           1       1       1 \
         -CNN                            64              2 \

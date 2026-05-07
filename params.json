@@ -4,7 +4,7 @@
         "physical_dx": 2.0
     },
     "runlbm.sh": {
-        "Time": 75005,
+        "Time": 25005,
         "time_coef": 0.01,
         "length_z": 128,
         "velocity_lbm": 5.0,
