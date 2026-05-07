@@ -1,4 +1,5 @@
 #include "Generate_Particle.h"
+#include "Define_user.h" // Read if user flag == 3
 
 #include "macroCUDA.h"
 #include "functionLib.h"
@@ -368,6 +369,25 @@ particle_source_LSM (
 			fin >> pos_idd_h[i];
 		}
 		fin.close();
+
+		if (user_flags::flg_particle == 3) {
+			// Mikael 2026 Mobile source implementation
+            // Define mobile source speed (e.g., in meters/second)
+            FLOAT vehicle_speed_x = 5.0; 
+            
+            // Calculate elapsed physical time using the domain's delta t
+            FLOAT dx = domain.dx;
+            FLOAT c_ref = domain.c_ref;
+            FLOAT dt = dx / c_ref;        // Standard CFL calculation
+            FLOAT elapsed_time = (t - pstart) * dt;
+
+            // Shift all source X-coordinates 
+            if (elapsed_time > 0) {
+                for(int i = 0; i < num_source; i++) {
+                    source_xd_h[i] += (vehicle_speed_x * elapsed_time);
+                }
+            }
+        }
 
 		// Copy data from host to device //
 		cudaMemcpy(source_xd_d, source_xd_h, num_source*sizeof(FLOAT), cudaMemcpyHostToDevice);

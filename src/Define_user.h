@@ -52,7 +52,7 @@ user_flags	{
 	const int flg_disturbance=0;	//disturbance		1:on, otherwise:off
 	const int flg_wallFunction=1; // wall function 1:on, otherwise:off
 
-	const int flg_particle=1;	// type of particle source 	1:LSM w/ SGS, 2:LSM w/o SGS, otherwise:uniform (YOKOUCHI 2020)
+	const int flg_particle=3;	// type of particle source 	1:LSM w/ SGS, 2:LSM w/o SGS, 3:LSM w/ moving sources otherwise:uniform (YOKOUCHI 2020, MIKAEL 2026)
 };
 
 #endif

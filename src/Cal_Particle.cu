@@ -86,8 +86,9 @@ particleAdvection (
 
 
 	// read 
-	// (YOKOUCHI 2020)	
-	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2) {
+	// (YOKOUCHI 2020)
+	// (MIKAEL 2026)	
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2 || user_flags::flg_particle == 3) {
 		particleRead_LSM(
 				pstart, pnum,
 				num_g,
@@ -118,7 +119,7 @@ particleAdvection (
 //			generate_particle (rank_, domain, particle_d, cfp_d);
 			
 			//(YOKOUCHI 2020)
-			if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2) {
+			if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2 || user_flags::flg_particle == 3) {
 				generate_particle_LSM (
 					domain, particle_d, cfp_d,
 					num_g,
