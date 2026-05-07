@@ -40,7 +40,7 @@
         "heights": [0.1],
         "velocity": [0.0, 0.0, 0.1],
         "group": 1,
-        "x_max_ratio": 0.2,
+        "x_max_ratio": 5, 
         "y_padding": 0.0, 
         "filename_pos": "particle_position.txt",
         "filename_num": "particle_number.txt"
