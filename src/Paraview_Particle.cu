@@ -397,7 +397,7 @@ output_particle_binary_scatter_all_LSM (
 				const FLOAT	w_tmp = Interpolate_Particle_Velocity (w, x, y, z, domain->x_min, domain->y_min, domain->z_min, dx, dy, dz, nx, ny, nz, halo_);
 
 				// (YOKOUCHI 2020)
-				if (user_flags::flg_particle == 1) {
+				if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 					uvw[id*3  ] = u_tmp + u_sgs;
 					uvw[id*3+1] = v_tmp + v_sgs;
 					uvw[id*3+2] = w_tmp + w_sgs;
@@ -425,7 +425,7 @@ output_particle_binary_scatter_all_LSM (
 	// uvw //
 
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2 || user_flags::flg_particle == 3) {
 	// uvw_sgs //
 	char	fname_uvw_sgs[256];
 	sprintf(fname_uvw_sgs, "./%s/uvw_sgs%d-%d.bin", fname_folder, lid, t);
