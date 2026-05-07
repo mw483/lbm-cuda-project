@@ -1,8 +1,8 @@
 PID=$(pgrep -u $(whoami) -f runlbm.sh) #PID of runlbm.sh, check the user also to make sure I am checking my simulation
 SRC_CSV="./Output"
 SRC_PAR="./result_particle_scatter_binary"
-DEST_CSV="./20260501_output_cubes_small_test"
-DEST_PAR="./20260501_particle_cubes_small_test"
+DEST_CSV="./20260507_output_cubes_moving_test"
+DEST_PAR="./20260507_particle_cubes_moving_test"
 
 if [ -z "$PID" ]; then
     echo "Error: No simulation found for user $(whoami)."
@@ -13,6 +13,7 @@ elif [ $(echo $PID | wc -w) -gt 1 ]; then
 else
     # Wait loop checking if simulation is still running
     echo "Monitoring PID $PID, will run when PID finishes"
+    echo "Transfer Destinations: $DEST_CSV and particle binary moved to $DEST_PAR"
     while kill -0 $PID 2>/dev/null; do
         sleep 60
     done

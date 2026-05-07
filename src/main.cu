@@ -565,7 +565,7 @@ if (rank == 0)  { std::cout << "Paraview" << endl; }
 		if (rank == 0 && i == 0)	{ cout << "calParticle.particleAdvection" << endl; }
 		
 		// (YOKOUCHI 2020)
-		if (user_flags::flg_particle == 1) {
+		if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 			// cal mean velocity
 			calculation.mean_velocity (
 				&cbq_d,
@@ -617,7 +617,7 @@ if (rank == 0)  { std::cout << "Paraview" << endl; }
 
 			if (pout_flg == 1) {
 				// (YOKOUCHI 2020)
-				if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2) {	
+				if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2 || user_flags::flg_particle == 3) {	
 					ParaviewParticle.output_particle_binary_scatter_all_LSM (
 						pstep,
 						&domain_h,

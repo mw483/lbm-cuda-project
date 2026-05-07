@@ -60,7 +60,7 @@ memcpy_Stress (Stress *stressn, const Stress *stress)
 	CUDA_SAFE_CALL( cudaMemcpy(stressn->force_z,	stress->force_z,      sizeof(FLOAT)*(nsize), cudaMemcpyDefault) );
 	
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 //	CUDA_SAFE_CALL( cudaMemcpy(stressn->vis_sgs_old,stress->vis_sgs_old,	sizeof(FLOAT)*(nsize), cudaMemcpyDefault) );	
 	CUDA_SAFE_CALL( cudaMemcpy(stressn->TKE_sgs,	stress->TKE_sgs,	sizeof(FLOAT)*(nsize), cudaMemcpyDefault) );
 	CUDA_SAFE_CALL( cudaMemcpy(stressn->TKE_sgs_old,stress->TKE_sgs_old,	sizeof(FLOAT)*(nsize), cudaMemcpyDefault) );
@@ -92,7 +92,7 @@ allocate_host   (Stress	*stress)
 	allocateLib::new_host   (&stress->force_z,	nsize);
 
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 //	allocateLib::new_host	(&stress->vis_sgs_old,	nsize);
 	allocateLib::new_host	(&stress->TKE_sgs,	nsize);	
 	allocateLib::new_host	(&stress->TKE_sgs_old,	nsize);	
@@ -121,7 +121,7 @@ allocate_device   (Stress	*stress)
 	allocateLib::new_device (&stress->force_z,	nsize);
 
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 //	allocateLib::new_device (&stress->vis_sgs_old,	nsize);
 	allocateLib::new_device (&stress->TKE_sgs,	nsize);
 	allocateLib::new_device (&stress->TKE_sgs_old,	nsize);
@@ -151,7 +151,7 @@ init_data (Stress *stress)
 	functionLib::fillArray(stress->force_z,	0.0,    nsize);
 
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 3) {
 //	functionLib::fillArray(stress->vis_sgs_old, 0.0,nsize);
 	functionLib::fillArray(stress->TKE_sgs,     0.0,nsize);
 	functionLib::fillArray(stress->TKE_sgs_old, 0.0,nsize);

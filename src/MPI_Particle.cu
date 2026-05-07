@@ -279,7 +279,7 @@ Update_MPI_Particle (
 	functionLib::set_dim3(&block, thread_length, 1, 1);
 
 	// (YOKOUCHI 2020)
-	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2) {
+	if (user_flags::flg_particle == 1 || user_flags::flg_particle == 2 || user_flags::flg_particle == 3) {
 		GPU_Particle_State_Cal_LSM <<< grid, block >>> (ppos_buff_d, pgrid_buff.num_particle_max, index_num);
 	} else {
 		GPU_Particle_State_Cal <<< grid, block >>> (ppos_buff_d, pgrid_buff.num_particle_max, index_num);
