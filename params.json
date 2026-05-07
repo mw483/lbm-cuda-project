@@ -31,7 +31,7 @@
         "flags": {
             "flg_buoyancy": 0,
             "flg_scalar": 2,
-            "flg_particle": 1
+            "flg_particle": 3
         }
     },
     "particles": {
