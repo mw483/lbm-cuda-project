@@ -56,7 +56,7 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
         | tee  -a  log_t2sub.txt
 """
     
-    with open("runlbm.sh", "w") as f:
+    with open("runlbm.sh", "w", newline='\n') as f:
         f.write(content)
     
     # Make the script executable automatically
