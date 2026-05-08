@@ -1,10 +1,6 @@
-import json
+import config
 import os
 import numpy as np
-
-def load_params(filepath):
-    with open(filepath, 'r') as f:
-        return json.load(f)
 
 def get_map_dimensions(map_path):
     if not os.path.exists(map_path):
@@ -240,32 +236,63 @@ class ParticleGenerator:
         print("Done.")
 
 def generate_particles(params, nx, ny):
-    p_part = params['particles']
     p_map = params['map']
-
     domain_x_m = nx * p_map['physical_dx']
     domain_y_m = ny * p_map['physical_dx']
-
     output_dir = "./particle_position"
 
     gen = ParticleGenerator(domain_x_m, domain_y_m, output_dir)
+    
+    all_particles = []
+    source_index = 1 # Master tracker for unique IDs
 
-    x_limit = domain_x_m / p_part['x_max_ratio']
-    y_min = p_part['y_padding']
-    y_max = domain_y_m - p_part['y_padding']
+    # Loop through every source in your config
+    for source in config.PARTICLE_SOURCES:
+        
+        if source["type"] == "uniform":
+            x_limit = domain_x_m / source['x_max_ratio']
+            y_min = source['y_padding']
+            y_max = domain_y_m - source['y_padding']
+            
+            raw_x = np.arange(source['spacing_x']/2, x_limit, source['spacing_x'])
+            raw_y = np.arange(source['spacing_y']/2, domain_y_m, source['spacing_y'])
+            y_coords = raw_y[(raw_y >= y_min) & (raw_y <= y_max)]
+            
+            u, v, w = source['velocity']
+            
+            for x in raw_x:
+                for y in y_coords:
+                    for z in source['heights']:
+                        current_id = (source_index * 10000) + 1
+                        all_particles.append((x, y, z, u, v, w, source['group'], current_id))
+                        source_index += 1
+                        
+        elif source["type"] == "point":
+            # Native Python handling for a direct point source
+            x, y, z = source["coords"]
+            u, v, w = source["velocity"]
+            current_id = (source_index * 10000) + 1
+            all_particles.append((x, y, z, u, v, w, source["group"], current_id))
+            source_index += 1
+            
+        elif source["type"] == "line":
+            # Future placeholder for line logic
+            pass
 
-    gen.generate_sources(
-        spacing_x=p_part['spacing_x'], 
-        spacing_y=p_part['spacing_y'], 
-        heights=p_part['heights'], 
-        velocity=tuple(p_part['velocity']), 
-        group_number=p_part['group'],
-        x_max_m=x_limit, 
-        y_min_m=y_min, 
-        y_max_m=y_max,
-        filename_pos=p_part['filename_pos'],
-        filename_num=p_part['filename_num']
-    )
+    # --- Write Files ---
+    os.makedirs(output_dir, exist_ok=True)
+    out_settings = config.PARTICLE_OUTPUT
+    
+    filepath_pos = os.path.join(output_dir, out_settings['filename_pos'])
+    print(f"Writing {len(all_particles)} total positions to: {filepath_pos}")
+    with open(filepath_pos, 'w', newline='\n') as f:
+        for p in all_particles:
+            line = f"{p[0]:.6f}\t{p[1]:.6f}\t{p[2]:.6f}\t{p[3]:.6f}\t{p[4]:.6f}\t{p[5]:.6f}\t{p[6]}\t{p[7]}\n"
+            f.write(line)
+            
+    filepath_num = os.path.join(output_dir, out_settings['filename_num'])
+    with open(filepath_num, 'w', newline='\n') as f:
+        f.write(str(len(all_particles)))
 
 def generate_read_particle_box(params):
     p_read = params['read_particle_box']
@@ -284,7 +311,7 @@ def generate_read_particle_box(params):
     print("read_particle_box.txt generated successfully.")
 
 if __name__ == "__main__":
-    data = load_params("params.json")
+    data = config.PARAMS
 
     m_path = data['map']['path']
     dims = get_map_dimensions(m_path)
