@@ -373,7 +373,7 @@ particle_source_LSM (
 		if (user_flags::flg_particle == 3) {
 			// Mikael 2026 Mobile source implementation
             // Define mobile source speed (e.g., in meters/second)
-            FLOAT vehicle_speed_x = 5.0; 
+            FLOAT vehicle_speed_x = 2.0; 
             
             // Calculate elapsed physical time using the domain's delta t
             FLOAT dx = domain.dx;
