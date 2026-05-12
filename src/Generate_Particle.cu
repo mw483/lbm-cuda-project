@@ -370,23 +370,84 @@ particle_source_LSM (
 		}
 		fin.close();
 
-		if (user_flags::flg_particle == 3) {
-			// Mikael 2026 Mobile source implementation
-            // Define mobile source speed (e.g., in meters/second)
-            FLOAT vehicle_speed_x = 2.0; 
-            
-            // Calculate elapsed physical time using the domain's delta t
+		// ---------------------------------------------------------
+        // Mikael 2026: Mobile Source Waypoint Implementation
+        // ---------------------------------------------------------
+        if (user_flags::flg_particle == 3) {
+            std::ifstream fwp("./particle_position/particle_waypoints.txt");
+            if (!fwp) { std::cout << "Warning: particle_waypoints.txt not found!" << std::endl; }
+
+            // Calculate elapsed physical time
             FLOAT dx = domain.dx;
             FLOAT c_ref = domain.c_ref;
-            FLOAT dt = dx / c_ref;        // Standard CFL calculation
+            FLOAT dt = dx / c_ref;
             FLOAT elapsed_time = (t - pstart) * dt;
 
-            // Shift all source X-coordinates 
-            if (elapsed_time > 0) {
-                for(int i = 0; i < num_source; i++) {
-                    source_xd_h[i] += (vehicle_speed_x * elapsed_time);
+            for (int i = 0; i < num_source; i++) {
+                int mode, num_wp;
+                fwp >> mode >> num_wp;
+
+                // Buffer for waypoint data (Assuming max 20 waypoints per path)
+                float wp_t[20], wp_x[20], wp_y[20], wp_z[20];
+                for (int j = 0; j < num_wp; j++) {
+                    fwp >> wp_t[j] >> wp_x[j] >> wp_y[j] >> wp_z[j];
                 }
+
+                // If no valid waypoints or dummy waypoint, skip calculation
+                if (num_wp <= 1) {
+                    continue; 
+                }
+
+                float total_duration = wp_t[num_wp - 1];
+                float t_eff = elapsed_time;
+
+                // --- 1. Mode Calculation (Loop, PingPong, Once) ---
+                if (total_duration > 0.0f) {
+                    if (mode == 1) { // Ping-pong
+                        int cycle = (int)(elapsed_time / total_duration);
+                        t_eff = fmodf(elapsed_time, total_duration);
+                        if (cycle % 2 != 0) {
+                            t_eff = total_duration - t_eff; // Reverse direction
+                        }
+                    } 
+                    else if (mode == 2) { // Loop (Circuit)
+                        t_eff = fmodf(elapsed_time, total_duration);
+                    } 
+                    else { // Once (Stop at end)
+                        if (t_eff > total_duration) t_eff = total_duration;
+                    }
+                }
+
+                // --- 2. Find Active Segment ---
+                int seg = 0;
+                while (seg < num_wp - 1 && t_eff >= wp_t[seg + 1]) {
+                    seg++;
+                }
+
+                // --- 3. Interpolate Relative Offset ---
+                float offset_x = 0.0f, offset_y = 0.0f, offset_z = 0.0f;
+                
+                if (seg < num_wp - 1) {
+                    float seg_duration = wp_t[seg + 1] - wp_t[seg];
+                    if (seg_duration > 0.0f) {
+                        float factor = (t_eff - wp_t[seg]) / seg_duration;
+                        offset_x = wp_x[seg] + factor * (wp_x[seg+1] - wp_x[seg]);
+                        offset_y = wp_y[seg] + factor * (wp_y[seg+1] - wp_y[seg]);
+                        offset_z = wp_z[seg] + factor * (wp_z[seg+1] - wp_z[seg]);
+                    }
+                } else {
+                    // Time exceeded or exactly at final waypoint
+                    offset_x = wp_x[num_wp - 1];
+                    offset_y = wp_y[num_wp - 1];
+                    offset_z = wp_z[num_wp - 1];
+                }
+
+                // --- 4. Apply Relative Offset to Base Coordinate ---
+                source_xd_h[i] += offset_x;
+                source_yd_h[i] += offset_y;
+                source_zd_h[i] += offset_z;
             }
+            fwp.close();
         }
 
 		// Copy data from host to device //

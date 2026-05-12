@@ -244,6 +244,11 @@ def generate_particles(params, nx, ny):
     gen = ParticleGenerator(domain_x_m, domain_y_m, output_dir)
     
     all_particles = []
+    all_waypoints = []
+    source_index = 1 # Master tracker for unique IDs
+
+    # ADD THIS LINE HERE:
+    MODE_MAP = {"once": 0, "pingpong": 1, "loop": 2}
     source_index = 1 # Master tracker for unique IDs
 
     # Loop through every source in your config
@@ -265,6 +270,10 @@ def generate_particles(params, nx, ny):
                     for z in source['heights']:
                         current_id = (source_index * 10000) + 1
                         all_particles.append((x, y, z, u, v, w, source['group'], current_id))
+                        
+                        # NEW: Add a dummy waypoint for this static particle
+                        # Format: Mode(0) NumWp(1) Time(0.0) dX(0.0) dY(0.0) dZ(0.0)
+                        all_waypoints.append("0\t1\t0.000000\t0.000000\t0.000000\t0.000000")
                         source_index += 1
                         
         elif source["type"] == "point":
@@ -273,11 +282,49 @@ def generate_particles(params, nx, ny):
             u, v, w = source["velocity"]
             current_id = (source_index * 10000) + 1
             all_particles.append((x, y, z, u, v, w, source["group"], current_id))
+            
+            # NEW: Add a dummy waypoint for this static particle
+            all_waypoints.append("0\t1\t0.000000\t0.000000\t0.000000\t0.000000")
             source_index += 1
             
         elif source["type"] == "line":
             # Future placeholder for line logic
             pass
+
+        elif source["type"] == "waypoint":
+            u, v, w = source["velocity"]
+            mode_int = MODE_MAP.get(source.get("mode", "once"), 0)
+            
+            # --- Logic: Determine Emitter Geometry ---
+            emitter_coords = []
+            if source.get("geometry") == "line":
+                s = np.array(source["start_pos"])
+                e = np.array(source["end_pos"])
+                n_pts = source["num_points"]
+                # Interpolate 5 points along the line
+                for i in range(n_pts):
+                    # Linear interpolation: P = Start + (i/(n-1))*(End - Start)
+                    frac = i / (n_pts - 1) if n_pts > 1 else 0
+                    p = s + frac * (e - s)
+                    emitter_coords.append(p)
+            else:
+                # Default to single point
+                emitter_coords.append(np.array(source["coords"]))
+
+            # --- Logic: Generate the 10x Stack ---
+            per_point = source.get("particles_per_point", 1)
+            for coord in emitter_coords:
+                for _ in range(per_point):
+                    current_id = (source_index * 10000) + 1
+                    # Add to master position list
+                    all_particles.append((coord[0], coord[1], coord[2], u, v, w, source['group'], current_id))
+                    
+                    # Store waypoint info for this specific ID
+                    wps = source["waypoints"]
+                    wp_line = f"{mode_int}\t{len(wps)}\t" + "\t".join([f"{val:.6f}" for wp in wps for val in wp])
+                    all_waypoints.append(wp_line)
+                    
+                    source_index += 1
 
     # --- Write Files ---
     os.makedirs(output_dir, exist_ok=True)
@@ -293,6 +340,11 @@ def generate_particles(params, nx, ny):
     filepath_num = os.path.join(output_dir, out_settings['filename_num'])
     with open(filepath_num, 'w', newline='\n') as f:
         f.write(str(len(all_particles)))
+    
+    filepath_wp = os.path.join(output_dir, "particle_waypoints.txt")
+    with open(filepath_wp, 'w', newline='\n') as f:
+        for wp_row in all_waypoints:
+            f.write(wp_row + "\n")
 
 def generate_read_particle_box(params):
     p_read = params['read_particle_box']
