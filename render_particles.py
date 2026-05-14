@@ -88,11 +88,18 @@ for i in range(start_num, data_num, dout):
             
             # Strip Fortran record markers (first and last elements)
             # and loop through by 3s (X, Y, Z)
-            floats = floats[1:-1]
-            for j in range(0, len(floats), 3):
+            # Skip only the first float
+            floats = floats[1:]
+            
+            # Calculate exact number of particles
+            num_particles = len(floats) // 3
+
+            for p in range(num_particles):
+                j = p * 3
                 x = floats[j]
                 y = (y_grid * resolut) - floats[j+1] # Y-inversion from MATLAB
                 z = floats[j+2]
+                
                 vtk_points.InsertNextPoint(x, y, z)
                 has_data = True
                 
