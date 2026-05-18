@@ -1,15 +1,15 @@
 import os
 import struct
+import vtk
 import paraview.simple as pvs
-from vtk import vtkPoints, vtkPolyData
 
 # ==========================================
-# 1. SETTINGS (Match your MATLAB script)
+# 1. SETTINGS
 # ==========================================
-cd_position = "20260512_particle_cubes_waypoints_test" # Directory with the .bin files
-out_png_dir = "20260512_PNG_ParaView_cubes_test"       # Output folder for PNGs
+cd_position = "./20260512_particle_cubes_waypoints_test" 
+map_file    = "./map/map_cubes_small.dat" 
+out_png_dir = "./20260512_PNG_ParaView_cubes_test"
 
-# Updated Grid Settings
 x_grid    = 192
 y_grid    = 96
 z_grid    = 64
@@ -17,64 +17,89 @@ resolut   = 2.0
 pout      = 100
 dt        = 0.01
 
-# Updated Loop Settings
 start_num = 0
 data_num  = 249
 dout      = 1
 num_ranks = 1
 
-# Create output directory
 if not os.path.exists(out_png_dir):
     os.makedirs(out_png_dir)
 
 # ==========================================
-# 2. SETUP THE PARAVIEW PIPELINE
+# 2. READ AND BUILD THE TOPOGRAPHY MAP
 # ==========================================
-# We create empty VTK objects to hold our data. 
-# We will update these inside the loop later.
-vtk_points = vtkPoints()
-polydata = vtkPolyData()
-polydata.SetPoints(vtk_points)
+print("Reading topography map...")
+z_data = []
 
-# Wrap the VTK data into a ParaView pipeline object
+with open(map_file, 'r') as f:
+    header = f.readline() 
+    for line in f:
+        row = [float(val) for val in line.split()]
+        if row:
+            z_data.append(row)
+
+sg = vtk.vtkStructuredGrid()
+sg.SetDimensions(x_grid, y_grid, 1)
+map_points = vtk.vtkPoints()
+
+for j in range(y_grid):
+    for i in range(x_grid):
+        x = (i + 1) * resolut
+        y = (j + 1) * resolut
+        row_idx = (y_grid - 1) - j 
+        z = z_data[row_idx][i]
+        map_points.InsertNextPoint(x, y, z)
+
+sg.SetPoints(map_points)
+
+map_source = pvs.TrivialProducer()
+map_source.GetClientSideObject().SetOutput(sg)
+surface_filter = pvs.ExtractSurface(Input=map_source)
+
+# ==========================================
+# 3. SETUP THE PARAVIEW PIPELINE
+# ==========================================
+# FIX: Create the VTK containers EXACTLY ONCE outside the loop
+vtk_points = vtk.vtkPoints()
+vertices = vtk.vtkCellArray()
+polydata = vtk.vtkPolyData()
+polydata.SetPoints(vtk_points)
+polydata.SetVerts(vertices)
+
 particle_source = pvs.TrivialProducer()
 particle_source.GetClientSideObject().SetOutput(polydata)
 
-# Set up the View (The "Canvas")
+# Setup View
 view = pvs.CreateRenderView()
-view.ViewSize = [1920, 1080] # 1080p Resolution
-view.Background = [0.0, 0.0, 0.0] # Black background
+view.ViewSize = [1920, 1080]
+view.Background = [0.0, 0.0, 0.0]
 
-# Display the particles in the view
-particle_display = pvs.Show(particle_source, view)
-particle_display.Representation = 'Points'
-particle_display.AmbientColor = [0.0, 1.0, 1.0] # Cyan color [R, G, B]
-particle_display.PointSize = 3.0 # Size of the dots
+# Display Map
+map_display = pvs.Show(surface_filter, view)
+map_display.Representation = 'Surface'
+map_display.AmbientColor = [0.6, 0.6, 0.6] 
+map_display.DiffuseColor = [0.6, 0.6, 0.6]
 
-# Set the Camera (Mimics MATLAB's view(35, 50))
-# These coordinates might need tweaking depending on your exact domain size
-view.CameraPosition = [x_grid*resolut*1.5, y_grid*resolut*2.0, z_grid*resolut*1.5]
-view.CameraFocalPoint = [x_grid*resolut/2.0, y_grid*resolut/2.0, 0.0]
-view.CameraViewUp = [0.0, 0.0, 1.0] # Z is up
-
-# Set up a Text Annotation for the Time
 time_text = pvs.Text()
 time_display = pvs.Show(time_text, view)
 time_display.WindowLocation = 'UpperCenter'
-time_display.Color = [1.0, 1.0, 1.0] # White text
+time_display.Color = [1.0, 1.0, 1.0]
 time_display.FontSize = 14
 
 # ==========================================
-# 3. MAIN RENDER LOOP
+# 4. MAIN RENDER LOOP
 # ==========================================
 print("Starting ParaView Rendering Loop...")
 
+is_first_frame = True
+
 for i in range(start_num, data_num, dout):
-    # Clear the old points
+    
+    # FIX: Empty the existing containers instead of making new ones
     vtk_points.Reset()
+    vertices.Initialize() 
     has_data = False
     
-    # Read data from all ranks
     for r in range(num_ranks):
         filepath = os.path.join(cd_position, "position{}-{}.bin".format(r, i))
         
@@ -82,48 +107,65 @@ for i in range(start_num, data_num, dout):
             with open(filepath, 'rb') as f:
                 raw_data = f.read()
                 
-            # Unpack the binary floats (MATLAB fread equivalent)
             num_floats = len(raw_data) // 4
             floats = struct.unpack('f' * num_floats, raw_data)
+            floats = floats[1:] 
             
-            # Strip Fortran record markers (first and last elements)
-            # and loop through by 3s (X, Y, Z)
-            # Skip only the first float
-            floats = floats[1:]
-            
-            # Calculate exact number of particles
             num_particles = len(floats) // 3
-
             for p in range(num_particles):
                 j = p * 3
                 x = floats[j]
-                y = (y_grid * resolut) - floats[j+1] # Y-inversion from MATLAB
+                y = (y_grid * resolut) - floats[j+1]
                 z = floats[j+2]
                 
-                vtk_points.InsertNextPoint(x, y, z)
+                pid = vtk_points.InsertNextPoint(x, y, z)
+                vertices.InsertNextCell(1)
+                vertices.InsertCellPoint(pid)
                 has_data = True
                 
     if not has_data:
         print("Warning: No data for step {}".format(i))
         continue
         
-    # Tell ParaView the data has changed
+    # FIX: Explicitly tell ParaView that the internal arrays have changed
     vtk_points.Modified()
+    vertices.Modified()
     polydata.Modified()
     particle_source.UpdatePipeline()
     
-    # Calculate and update time text
     tt = i * pout * dt
     h = int(tt / 3600)
     m = int((tt % 3600) / 60)
     s = tt % 60
     time_text.Text = "3D View - Time {:02d}:{:02d}:{:02.0f}".format(h, m, s)
     
-    # Render and Save
+    # ---------------------------------------------------------
+    # FIRST FRAME INITIALIZATION
+    # ---------------------------------------------------------
+    if is_first_frame:
+        particle_display = pvs.Show(particle_source, view)
+        particle_display.Representation = 'Points'
+        particle_display.RenderPointsAsSpheres = 1
+        particle_display.AmbientColor = [0.0, 1.0, 1.0]
+        particle_display.PointSize = 6.0
+        
+        view.CameraViewUp = [0.0, 0.0, 1.0] 
+        
+        cx = (x_grid * resolut) / 2.0
+        cy = (y_grid * resolut) / 2.0
+        cz = 0.0
+        view.CameraFocalPoint = [cx, cy, cz]
+        view.CameraPosition = [cx * 2.5, cy * -1.5, (x_grid * resolut) * 0.8]
+        
+        pvs.ResetCamera(view)
+        is_first_frame = False
+    
+    pvs.Render()
+    
     out_file = os.path.join(out_png_dir, "frame-{:04d}.png".format(i))
     pvs.SaveScreenshot(out_file, view)
     
-    if i % 20 == 0:
+    if i % 10 == 0:
         print("Rendered step {}".format(i))
 
 print("Visualization complete!")
