@@ -2,15 +2,15 @@
 
 PARAMS = {
     "map": {
-        "path": "./map/map_cubes_small.dat",
+        "path": "./map/takamatsu_single_building.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
-        "Time": 25005,
+        "Time": 125005,
         "time_coef": 0.01,
         "length_z": 128,
-        "velocity_lbm": 5.0,
-        "flag_particle_generate": 1,
+        "velocity_lbm": 2.0,
+        "flag_particle_generate": 0,
         "pout": 100,
         "max_particles": 20000000,
         "generate_step": 100
@@ -22,18 +22,18 @@ PARAMS = {
             "hf": -0.1
         },
         "output": {
-            "average_interval": 200.0,
+            "average_interval": 300.0,
             "skip_time": 0.0,
-            "output_interval_ins": 200.0,
+            "output_interval_ins": 300.0,
             "time_output_ins_ini": 0.0,
-            "kout": [10, 20, 30],
-            "jout": [64],
-            "iout": [256]
+            "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32],
+            "jout": [160],
+            "iout": [80]
         },
         "flags": {
             "flg_buoyancy": 0,
-            "flg_scalar": 2,
-            "flg_particle": 3
+            "flg_scalar": 0,
+            "flg_particle": 1
         }
     },
     "read_particle_box": {

@@ -24,17 +24,17 @@ user_init {
 namespace
 user_output {
         #include "definePrecision.h"
-        const FLOAT     average_interval        = 200.0;                //(sec)
+        const FLOAT     average_interval        = 300.0;                //(sec)
         const FLOAT     skip_time               = 0.0;          //(sec)
-        const FLOAT     output_interval_ins     = 200.0;                //(sec)
+        const FLOAT     output_interval_ins     = 300.0;                //(sec)
         const FLOAT     time_output_ins_ini     = 0.0;          //(sec)
-        const int       nz_out                  = 3;            // number of planes to be output (xy)
+        const int       nz_out                  = 19;            // number of planes to be output (xy)
         const int       nj_out                  = 1;            // number of planes to be output (xz)
         const int       ni_out                  = 1;            // number of planes to be output (yz)
         const int       nv_out                  = 0;            // number of ranks to be out (volume output)
-        const int kout[] = {10, 20, 30}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
-        const int jout[] = {64};
-        const int iout[] = {256};
+        const int kout[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
+        const int jout[] = {160};
+        const int iout[] = {80};
         const int       vout_rank[] = {};                       // volume output
 //      const char      odir_user[] = "./Output/testesttest/";  // odir_user = <user output directoryvout_rank[] = {1};
 };
@@ -43,7 +43,7 @@ namespace
 user_flags	{
 	#include "definePrecision.h"
 	const int flg_buoyancy=0;	// buoyancy force 		1:on, otherwise:off
-	const int flg_scalar=2;		// scalar			1:on, otherwise:off, 2:homongeneous from horizontal surfaces
+	const int flg_scalar=0;		// scalar			1:on, otherwise:off, 2:homongeneous from horizontal surfaces
 					//  >> need "input" files (surface flux data)
 	const int flg_dpdx=0;		// Pressure gradient in x 	1:on, otherwise:off
 	const int flg_dpdy=0;		// Pressure gradient in x	1:on, otherwise:off
@@ -52,7 +52,7 @@ user_flags	{
 	const int flg_disturbance=0;	//disturbance		1:on, otherwise:off
 	const int flg_wallFunction=1; // wall function 1:on, otherwise:off
 
-	const int flg_particle=3;	// type of particle source 	1:LSM w/ SGS, 2:LSM w/o SGS, 3: LSM w/ mobile sources, otherwise:uniform (YOKOUCHI 2020, WIJAYA 2026)
+	const int flg_particle=1;	// type of particle source 	1:LSM w/ SGS, 2:LSM w/o SGS, 3: LSM w/ mobile sources, otherwise:uniform (YOKOUCHI 2020, WIJAYA 2026)
 };
 
 #endif

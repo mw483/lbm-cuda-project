@@ -486,7 +486,7 @@ read_map (
 		char name[100];
 
 		std::ifstream fin;
-		sprintf(name, "./map/map_cubes_small.dat");
+		sprintf(name, "./map/takamatsu_single_building.dat");
 
 		std::cout << "fin open (map)\n";
 		fin.open(name, std::ios::in);
