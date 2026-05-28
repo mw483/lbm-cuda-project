@@ -2,7 +2,7 @@
 export OMP_NUM_THREADS=4
 
 # The path to your compiled global C++ executable
-ENGINE_PATH="/data/mikael/LBM_particle_test/Particle_PostProcessing_CPP/src"
+ENGINE_PATH="/data/mikael/LBM_particle_test/Particle_PostProcessing_CPP/src/run_analysis"
 
 # Automatically create the output directory before running
 mkdir -p "./Particle_PostProcess_Outputs/20260527_particle_flat_3072/1200-1800_footprint"
