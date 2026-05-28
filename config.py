@@ -2,15 +2,15 @@
 
 PARAMS = {
     "map": {
-        "path": "./map/takamatsu_single_building.dat",
+        "path": "./map/map_01_flat_plane.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
-        "Time": 125005,
+        "Time": 185005,
         "time_coef": 0.01,
-        "length_z": 128,
+        "length_z": 160,
         "velocity_lbm": 2.0,
-        "flag_particle_generate": 0,
+        "flag_particle_generate": 1,
         "pout": 100,
         "max_particles": 20000000,
         "generate_step": 100
@@ -22,9 +22,9 @@ PARAMS = {
             "hf": -0.1
         },
         "output": {
-            "average_interval": 300.0,
+            "average_interval": 600.0,
             "skip_time": 0.0,
-            "output_interval_ins": 300.0,
+            "output_interval_ins": 600.0,
             "time_output_ins_ini": 0.0,
             "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32],
             "jout": [160],
@@ -37,8 +37,8 @@ PARAMS = {
         }
     },
     "read_particle_box": {
-        "pstart": 0,
-        "pnum": 1000,
+        "pstart": 1200,
+        "pnum": 2000,
         "num_g": [50, 50, 5],
         "point_g": [0.0, 0.0, 5.0],
         "vec_g": [1000.0, 1000.0, 256.0]
@@ -103,25 +103,25 @@ PARAMS = {
             "Z_RESID": 10
         },
         "paths": {
-            "DIR_DATA": "../20260310_particle_nothermal_particle",
-            "DIR_OUT": "../Output_20260310_particle_nothermal_particle/879-1279_density_footprint_flux",
-            "FNAME_MAP": "../map/map_02_full_roughness.dat",
-            "FNAME_SOURCE": "../particle_position_sourcearea/particle_position_sourcearea_groundonly_sparse.txt"
+            "DIR_DATA": "../20260527_particle_flat_3072",
+            "DIR_OUT": "../Output_20260527_particle_flat_3072/879-1279_density_footprint_flux",
+            "FNAME_MAP": "../map/map_01_flat_plane.dat",
+            "FNAME_SOURCE": "../particle_position/particle_position.txt"
         }
     }
 }
 
 PARTICLE_SOURCES = [
-    # { # Comment or uncomment each block to set the desired type
-    #     "type": "uniform",
-    #     "spacing_x": 16.0,
-    #     "spacing_y": 16.0,
-    #     "heights": [0.1],
-    #     "velocity": [0.0, 0.0, 0.1],
-    #     "group": 1,
-    #     "x_max_ratio": 5,
-    #     "y_padding": 16.0
-    # },
+    { # Comment or uncomment each block to set the desired type
+        "type": "uniform",
+        "spacing_x": 8.0,
+        "spacing_y": 8.0,
+        "heights": [0.1],
+        "velocity": [0.0, 0.0, 0.1],
+        "group": 1,
+        "x_max_ratio": 1.33, #x_limit = domain_x / x_max_ratio
+        "y_padding": 4.0
+    },
     # {
     #     "type": "point",
     #     "num_particles": 100,
@@ -137,23 +137,23 @@ PARTICLE_SOURCES = [
     #     "velocity": [0.0, 5.0, 0.1],
     #     "group": 1
     # },
-    { # For mobile source modeling
-        "type": "waypoint",
-        "geometry": "line",   # line vs point
-        "mode": "pingpong",
-        "start_pos": [40.0, 120.0, 0.1],  # Start of the line
-        "end_pos": [50.0, 120.0, 0.1],    # End of the line
-        "num_points": 5,                 # 5 physical locations on the line
-        "particles_per_point": 10,       # 10 particles spawned at each location
-        "waypoints": [
-            (0.0, 0.0, 0.0, 0.0),        # Relative offsets from original particle position as waypoints
-            (45.0, 80.0, 0.0, 0.0),
-            (90.0, 80.0, -50.0, 0.0),
-            (135.0, 160.0, -50.0, 0.0)
-        ],
-        "velocity": [0.0, 0.0, 0.1],
-        "group": 1
-    }
+    # { # For mobile source modeling
+    #     "type": "waypoint",
+    #     "geometry": "line",   # line vs point
+    #     "mode": "pingpong",
+    #     "start_pos": [40.0, 120.0, 0.1],  # Start of the line
+    #     "end_pos": [50.0, 120.0, 0.1],    # End of the line
+    #     "num_points": 5,                 # 5 physical locations on the line
+    #     "particles_per_point": 10,       # 10 particles spawned at each location
+    #     "waypoints": [
+    #         (0.0, 0.0, 0.0, 0.0),        # Relative offsets from original particle position as waypoints
+    #         (45.0, 80.0, 0.0, 0.0),
+    #         (90.0, 80.0, -50.0, 0.0),
+    #         (135.0, 160.0, -50.0, 0.0)
+    #     ],
+    #     "velocity": [0.0, 0.0, 0.1],
+    #     "group": 1
+    # }
 ]
 
 PARTICLE_OUTPUT = {

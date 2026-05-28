@@ -24,9 +24,9 @@ user_init {
 namespace
 user_output {
         #include "definePrecision.h"
-        const FLOAT     average_interval        = 300.0;                //(sec)
+        const FLOAT     average_interval        = 600.0;                //(sec)
         const FLOAT     skip_time               = 0.0;          //(sec)
-        const FLOAT     output_interval_ins     = 300.0;                //(sec)
+        const FLOAT     output_interval_ins     = 600.0;                //(sec)
         const FLOAT     time_output_ins_ini     = 0.0;          //(sec)
         const int       nz_out                  = 19;            // number of planes to be output (xy)
         const int       nj_out                  = 1;            // number of planes to be output (xz)

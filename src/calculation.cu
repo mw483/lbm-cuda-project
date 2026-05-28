@@ -821,7 +821,8 @@ boundary_Variables (
    	FluidProperty	*cfp
 	)
 {
-	boundary_x_Variables (cq, cbq, cfp);
+	// Commented -> Non-cyclic boundary. 
+//  boundary_x_Variables (cq, cbq, cfp);
 //	boundary_y_Variables (cq, cbq, cfp);
 	boundary_z_Variables (cq, cbq, cfp);
 }
