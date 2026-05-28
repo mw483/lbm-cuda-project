@@ -64,17 +64,17 @@ PARAMS = {
             "dT": 0.01
         },
         "timing": {
-            "FILE_START": 879,
-            "FILE_END": 1279,
+            "FILE_START": 1200,
+            "FILE_END": 1800,
             "POUT": 100,
             "PGEN_STEP": 100,
-            "NUM_GEN": 921600
+            "NUM_GEN": 1843200
         },
         "flags": {
             "FLG_NUM": 1,
-            "FLG_DENSITY": 1,
+            "FLG_DENSITY": 0,
             "FLG_PROFILE": 0,
-            "FLG_FOOT": 0,
+            "FLG_FOOT": 1,
             "FLG_FLUX": 0,
             "FLG_RESID": 0
         },
@@ -88,13 +88,13 @@ PARAMS = {
         },
         "footprint_sensors": {
             "H_AVE": 2,
-            "N_SOURCE": 1536,
+            "N_SOURCE": 3072,
             "ID_DIGIT": 3,
             "N_SENSOR": 3,
             # Flattened [X, Y, Z] list for all sensors
-            "CTR_SENSOR": [770, 88, 24, 
-                           770, 128, 24, 
-                           770, 168, 24],
+            "CTR_SENSOR": [600, 96, 10, 
+                           600, 128, 10, 
+                           600, 160, 10],
             "SIZE_SENSOR": [40, 40, 8]
         },
         "flux_resid": {
@@ -103,10 +103,10 @@ PARAMS = {
             "Z_RESID": 10
         },
         "paths": {
-            "DIR_DATA": "../20260527_particle_flat_3072",
-            "DIR_OUT": "../Output_20260527_particle_flat_3072/879-1279_density_footprint_flux",
-            "FNAME_MAP": "../map/map_01_flat_plane.dat",
-            "FNAME_SOURCE": "../particle_position/particle_position.txt"
+            "DIR_DATA": "./20260527_particle_flat_3072",
+            "DIR_OUT": "./Output_20260527_particle_flat_3072/1200-1600_density_footprint_flux",
+            "FNAME_MAP": "./map/map_01_flat_plane.dat",
+            "FNAME_SOURCE": "./particle_position/particle_position.txt"
         }
     }
 }
