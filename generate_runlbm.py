@@ -377,7 +377,6 @@ if __name__ == "__main__":
     data = config.PARAMS
 
     m_path = data['map']['path']
-    pos_source = data['particle_setup']['position_file']
 
     dims = get_map_dimensions(m_path)
 
