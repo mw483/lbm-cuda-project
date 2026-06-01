@@ -36,6 +36,13 @@ PARAMS = {
             "flg_particle": 1
         }
     },
+    "read_particle_box": {
+        "pstart": 1200,
+        "pnum": 2000,
+        "num_g": [50, 50, 5],
+        "point_g": [0.0, 0.0, 5.0],
+        "vec_g": [1000.0, 1000.0, 256.0]
+    },
     # Append this inside the PARAMS dictionary in config.py
     "post_processing": {
         "execution": {
