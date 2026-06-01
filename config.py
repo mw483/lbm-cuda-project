@@ -2,15 +2,15 @@
 
 PARAMS = {
     "map": {
-        "path": "./map/takamatsu_single_building.dat",
+        "path": "./map/map_01_flat_plane.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
-        "Time": 125005,
+        "Time": 185005,
         "time_coef": 0.01,
-        "length_z": 128,
-        "velocity_lbm": 10.0,
-        "flag_particle_generate": 0,
+        "length_z": 160,
+        "velocity_lbm": 2.0,
+        "flag_particle_generate": 1,
         "pout": 100,
         "max_particles": 20000000,
         "generate_step": 100
@@ -22,9 +22,9 @@ PARAMS = {
             "hf": -0.1
         },
         "output": {
-            "average_interval": 300.0,
+            "average_interval": 600.0,
             "skip_time": 0.0,
-            "output_interval_ins": 300.0,
+            "output_interval_ins": 600.0,
             "time_output_ins_ini": 0.0,
             "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32],
             "jout": [160],
@@ -35,13 +35,6 @@ PARAMS = {
             "flg_scalar": 0,
             "flg_particle": 1
         }
-    },
-    "read_particle_box": {
-        "pstart": 1200,
-        "pnum": 2000,
-        "num_g": [50, 50, 5],
-        "point_g": [0.0, 0.0, 5.0],
-        "vec_g": [1000.0, 1000.0, 256.0]
     },
     # Append this inside the PARAMS dictionary in config.py
     "post_processing": {
