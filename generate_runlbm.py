@@ -1,5 +1,6 @@
 import config
 import os
+import shutil
 import numpy as np
 
 def get_map_dimensions(map_path):
@@ -227,12 +228,16 @@ class ParticleGenerator:
                 # Format: x y z u v w group id
                 line = f"{p[0]:.6f}\t{p[1]:.6f}\t{p[2]:.6f}\t{p[3]:.6f}\t{p[4]:.6f}\t{p[5]:.6f}\t{p[6]}\t{p[7]}\n"
                 f.write(line)
+        
+        shutil.copy(filepath_pos, os.path.join(self.output_dir, "particle_position.txt"))
                 
         filepath_num = os.path.join(self.output_dir, filename_num)
         print(f"Writing count to: {filepath_num}")
         with open(filepath_num, 'w') as f:
             f.write(str(len(particles)))
-            
+
+        shutil.copy(filepath_num, os.path.join(self.output_dir, "particle_number.txt"))
+        
         print("Done.")
 
 def generate_particles(params, nx, ny):
@@ -336,10 +341,16 @@ def generate_particles(params, nx, ny):
         for p in all_particles:
             line = f"{p[0]:.6f}\t{p[1]:.6f}\t{p[2]:.6f}\t{p[3]:.6f}\t{p[4]:.6f}\t{p[5]:.6f}\t{p[6]}\t{p[7]}\n"
             f.write(line)
+
+    # Copy the file into particle_position.txt
+    shutil.copy(filepath_pos, os.path.join(output_dir, "particle_position.txt"))
             
     filepath_num = os.path.join(output_dir, out_settings['filename_num'])
     with open(filepath_num, 'w', newline='\n') as f:
         f.write(str(len(all_particles)))
+    
+    # Copy the file into particle_number.txt
+    shutil.copy(filepath_num, os.path.join(output_dir, "particle_number.txt"))
     
     filepath_wp = os.path.join(output_dir, "particle_waypoints.txt")
     with open(filepath_wp, 'w', newline='\n') as f:
@@ -366,6 +377,8 @@ if __name__ == "__main__":
     data = config.PARAMS
 
     m_path = data['map']['path']
+    pos_source = data['particle_setup']['position_file']
+
     dims = get_map_dimensions(m_path)
 
     if dims:

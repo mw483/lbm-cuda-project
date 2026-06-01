@@ -1,0 +1,17 @@
+# map_config.yaml
+domain:
+  x_m: 640.0   # Much larger domain length
+  y_m: 320.0    # Much larger domain width
+  res_m: 2.0    # 2 meters per cell
+
+output:
+  filename: "./map/takamatsu_single_building.dat"
+
+obstacles:
+  - type: "rectangle"
+    x_pos_m: 320.0    # Give it plenty of approach distance
+    y_pos_m: 160.0    # Roughly centered in Y
+    x_dim_m: 40.0     # (Input from your PKL inspection)
+    y_dim_m: 40.0     # (Input from your PKL inspection)
+    height: 30        # (Input from your PKL inspection)
+    center_y: true
