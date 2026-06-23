@@ -148,7 +148,7 @@ void ParticleFlux::output_flux (Setting& setting) {
 
 		std::cout << "Output flux (" << zi_flux << ") >>>>> ";
 		std::fstream fFile;
-		char				 fluxFile[100];
+		char				 fluxFile[256];
 
 		sprintf(fluxFile, "./%s/flux_%dm.csv", dir_out, (int)zi_flux);
 		fFile.open(fluxFile, std::ios::out);

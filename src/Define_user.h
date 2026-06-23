@@ -4,15 +4,15 @@
 namespace
 user_init {
         #include "definePrecision.h"
-        const   FLOAT   DTDZ_LOW        = 0.01;  // T0 = T_ground + DTDZ_LOW * z
-        const   FLOAT   DTDZ_HIGH       = 0.01; //0.01; // T0 = T_ground + DTDZ_LOW * ZHIGH + DTDZ_HIGH * (z - ZHIGH)
+        const   FLOAT   DTDZ_LOW        = 0.0;  // T0 = T_ground + DTDZ_LOW * z
+        const   FLOAT   DTDZ_HIGH       = 0.0; //0.01; // T0 = T_ground + DTDZ_LOW * ZHIGH + DTDZ_HIGH * (z - ZHIGH)
         const   FLOAT   ZHIGH           = 20.0;
         const   int     pt_ref          = 300.0;        //305.0;
 // for pressure driven mode (flg_dpdx=1 or flg_dpdy=1)
         const FLOAT dpdx = -7.95*1.0e-4;
         const FLOAT dpdy        = 0.0;                          // dp/dx [g/(m2s2)]
 // for constant heat flux mode (flg_scalar=2)
-        const FLOAT     hf= -0.1;                                 // scalar flux from floor (MUST BE flg_scalar=2)
+        const FLOAT     hf= 0.0;                                 // scalar flux from floor (MUST BE flg_scalar=2)
 // for coriolis force (flg_coriolis=1)
         const FLOAT     angular_velocity = 7.2921e-5;           // angular velocity of earth [rad/sec]
 //      const FLOAT     latitude=-6.21462;                      // Jakarta
@@ -28,12 +28,12 @@ user_output {
         const FLOAT     skip_time               = 0.0;          //(sec)
         const FLOAT     output_interval_ins     = 600.0;                //(sec)
         const FLOAT     time_output_ins_ini     = 0.0;          //(sec)
-        const int       nz_out                  = 19;            // number of planes to be output (xy)
+        const int       nz_out                  = 21;            // number of planes to be output (xy)
         const int       nj_out                  = 1;            // number of planes to be output (xz)
         const int       ni_out                  = 1;            // number of planes to be output (yz)
         const int       nv_out                  = 0;            // number of ranks to be out (volume output)
-        const int kout[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
-        const int jout[] = {160};
+        const int kout[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
+        const int jout[] = {128};
         const int iout[] = {80};
         const int       vout_rank[] = {};                       // volume output
 //      const char      odir_user[] = "./Output/testesttest/";  // odir_user = <user output directoryvout_rank[] = {1};

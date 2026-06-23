@@ -17,17 +17,17 @@ PARAMS = {
     },
     "Define_user.h": {
         "init": {
-            "DTDZ_LOW": 0.01,
-            "DTDZ_HIGH": 0.01,
-            "hf": -0.1
+            "DTDZ_LOW": 0.00,
+            "DTDZ_HIGH": 0.00,
+            "hf": 0.0
         },
         "output": {
             "average_interval": 600.0,
             "skip_time": 0.0,
             "output_interval_ins": 600.0,
             "time_output_ins_ini": 0.0,
-            "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 28, 32],
-            "jout": [160],
+            "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32],
+            "jout": [128],
             "iout": [80]
         },
         "flags": {
@@ -103,8 +103,8 @@ PARAMS = {
             "Z_RESID": 10
         },
         "paths": {
-            "DIR_DATA": "./20260527_particle_flat_3072",
-            "DIR_OUT": "./Output_20260527_particle_flat_3072/1200-1600_density_footprint_flux",
+            "DIR_DATA": "./20260619_particle_flat_halfVSGS",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8",
             "FNAME_MAP": "./map/map_01_flat_plane.dat",
             "FNAME_SOURCE": "./particle_position/particle_position.txt"
         }

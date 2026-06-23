@@ -156,7 +156,7 @@ void ParticleResidenceTime::output_residence (Setting& setting) {
 	// Output
 	std::cout << "Output residence time particle >>>>> ";
 		std::fstream rFile;
-		char				 residFile[100];
+		char				 residFile[256];
 
 		sprintf(residFile, "./%s/residence_time_particle.csv", dir_out);
 		rFile.open(residFile, std::ios::out);

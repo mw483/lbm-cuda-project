@@ -45,7 +45,7 @@ void ParticleNum::output_num (Setting& setting) {
 	// Output
 	std::cout << "Output num >>>>> ";
 	std::fstream	nFile;
-	char		numFile[100];
+	char numFile[256];
 	
 	sprintf(numFile, "./%s/total_num.csv", dir_out);
 	

@@ -5,7 +5,7 @@ export OMP_NUM_THREADS=4
 ENGINE_PATH="/data/mikael/LBM_particle_test/Particle_PostProcessing_CPP/src/run_analysis"
 
 # Automatically create the output directory before running
-mkdir -p "./Particle_PostProcess_Outputs/20260527_particle_flat_3072/1200-1800_footprint"
+mkdir -p "./Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8/1200-1800_footprint"
 
 # Execute the analysis
 $ENGINE_PATH \
@@ -45,8 +45,8 @@ $ENGINE_PATH \
     -N_FLUX         9 \
     -Z_FLUX         8 9 10 16 17 18 32 33 34 \
     -Z_RESID        10 \
-    -DIR_DATA       ./20260527_particle_flat_3072 \
-    -DIR_OUT        ./Particle_PostProcess_Outputs/20260527_particle_flat_3072/1200-1800_footprint \
+    -DIR_DATA       ./20260619_particle_flat_halfVSGS \
+    -DIR_OUT        ./Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8/1200-1800_footprint \
     -FNAME_MAP      ./map/map_01_flat_plane.dat \
     -FNAME_SOURCE   ./particle_position/particle_position.txt \
-    | tee -a "./Particle_PostProcess_Outputs/20260527_particle_flat_3072/1200-1800_footprint/log_analysis.txt"
+    | tee -a "./Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8/1200-1800_footprint/log_analysis.txt"

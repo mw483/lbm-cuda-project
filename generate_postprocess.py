@@ -18,7 +18,7 @@ def generate_postprocess_sh():
     folder_name = f"{p['timing']['FILE_START']}-{p['timing']['FILE_END']}_{flag_suffix}"
 
     # Construct the final DIR_OUT path using a base directory
-    base_out = p['paths'].get('BASE_OUT_DIR', './Particle_PostProcess_Outputs/20260527_particle_flat_3072')
+    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8')
     dir_out = f"{base_out}/{folder_name}"
 
     # Helper function to format arrays for Bash

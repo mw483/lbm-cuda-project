@@ -146,7 +146,7 @@ void ParticleDensity::output_density (Setting& setting) {
 
 		std::cout << "Output density (" << zi_out << ") >>>>> ";
 		std::fstream	dFile;
-		char					densityFile[100];
+		char					densityFile[256];
 
 		sprintf(densityFile, "./%s/xy_number_density_%dm.csv", dir_out, (int)zi_out);
 		dFile.open(densityFile, std::ios::out);
@@ -171,7 +171,7 @@ void ParticleDensity::output_density (Setting& setting) {
 
 		std::cout << "Output density (" << yi_out << ") >>>>> ";
 		std::fstream	dFile;
-		char					densityFile[100];
+		char					densityFile[256];
 
 		sprintf(densityFile, "./%s/xz_number_density_%dm.csv", dir_out, (int)yi_out);
 		dFile.open(densityFile, std::ios::out);
@@ -196,7 +196,7 @@ void ParticleDensity::output_density (Setting& setting) {
 
 		std::cout << "Output density (" << xi_out << ") >>>>> ";
 		std::fstream	dFile;
-		char					densityFile[100];
+		char					densityFile[256];
 
 		sprintf(densityFile, "./%s/yz_number_density_%dm.csv", dir_out, (int)xi_out);
 		dFile.open(densityFile, std::ios::out);

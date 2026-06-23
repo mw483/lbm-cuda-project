@@ -138,7 +138,7 @@ CUDA_Particle_Advection_LSM (
 
 	// merge velocity //
 	FLOAT u_new = u_p + u_s;
-	FLOAT v_new = v_p + v_s;
+	FLOAT v_new = v_p + 0.5 * v_s; // MIKAEL WIJAYA 2026-06-19 testing the effects of lateral SGS
 	FLOAT w_new = w_p + w_s;
 
 	// new position //

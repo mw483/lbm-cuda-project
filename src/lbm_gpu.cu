@@ -625,7 +625,7 @@ cuda_stream_collision_T_D3Q27 (
 				U_neighbor = sqrt(u_neighbor*u_neighbor + v_neighbor*v_neighbor + w_neighbor*w_neighbor);
 				assert(U_neighbor >= 0.0);
 				if(user_init::z0 > 0.0){ // loglaw
-					u_tau = 0.4 * U_neighbor / log(dx*0.5/user_init::z0);
+					u_tau = 0.4 * U_neighbor / log(dx*0.5/user_init::z0); // friction velocity
 				}else{ // Spalding law
 					u_tau = U_neighbor / 30.0;
 					for(int c=0; c<30; c++){
