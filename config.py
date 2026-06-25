@@ -108,6 +108,25 @@ PARAMS = {
             "FNAME_MAP": "./map/map_01_flat_plane.dat",
             "FNAME_SOURCE": "./particle_position/particle_position.txt"
         }
+    },
+    "tsubame_mpi": {
+        "scheduler": {
+            "node_f": 4,          # Number of physical nodes requested
+            "h_rt": "10:32:00",   # Max walltime
+            "job_name": "LBM_1_0"
+        },
+        "mpi_run": {
+            "npernode": 1,        # Processes per node
+            "n_total": 4          # Total processes (should equal node_f * npernode)
+        },
+        "lbm_args": {
+            "Time": 180005,
+            "NMPI": [4, 1, 1],    # Domain decomposition (must multiply to n_total)
+            "gpu_per_node": 1,
+            "ncpu_div": [1, 1, 1, 1],
+            "CFout": [500, 60000],
+            "CFRfrg": [1, 0, 1]
+        }
     }
 }
 
