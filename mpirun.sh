@@ -31,7 +31,7 @@ mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
     -restart                0 \
     -fstart                 0 \
     -domain_min             -0.08 -0.08 -0.08 \
-    -length                 1024 256 160 \
+    -length                 1024.0 256.0 160 \
     -ncpu_div               1 1 1 1 \
     -flag_particle_generate 1 \
     -prestart               0 \

@@ -31,7 +31,7 @@ $rsyncArgs = @(
     "-e", $sshCmd,
     "--exclude=.git/",
     "--exclude=deploy.ps1",
-    "--exclude=Output*",
+    "--exclude=Output_*/",
     "--exclude=*.exe",
     "--exclude=*.obj",
     "--exclude=Particle_PostProcess_Outputs",

@@ -1,15 +1,25 @@
 import os
 import stat
-from config import PARAMS
+import config
 
-def generate_mpirun_sh():
-    p_run = PARAMS["runlbm.sh"]
-    p_map = PARAMS["map"]
-    p_mpi = PARAMS["tsubame_mpi"]
+# Import the shared template/particle generators so we don't duplicate code!
+from generate_runlbm import (
+    get_map_dimensions,
+    generate_define_user,
+    generate_param_fluid,
+    generate_particles,
+    generate_read_particle_box
+)
+
+def generate_mpirun_sh(params, nx, ny):
+    p_run = params["runlbm.sh"]
+    p_map = params["map"]
+    p_mpi = params["tsubame_mpi"]
 
     # Calculate grid size dynamically from the Map parser (assuming you have this logic)
-    # For now, pulling from your provided script defaults:
-    length_x, length_y, length_z = 1024, 256, 160
+    domain_x_m = nx * p_map['physical_dx']
+    domain_y_m = ny * p_map['physical_dx']
+    length_z = p_run['length_z']
 
     # Helper function to format arrays
     def to_str(param_list):
@@ -48,7 +58,7 @@ mpirun -x LD_LIBRARY_PATH -npernode {p_mpi['mpi_run']['npernode']} -n {p_mpi['mp
     -restart                0 \\
     -fstart                 0 \\
     -domain_min             -0.08 -0.08 -0.08 \\
-    -length                 {length_x} {length_y} {length_z} \\
+    -length                 {domain_x_m} {domain_y_m} {length_z} \\
     -ncpu_div               {to_str(p_mpi['lbm_args']['ncpu_div'])} \\
     -flag_particle_generate {p_run['flag_particle_generate']} \\
     -prestart               0 \\
@@ -66,4 +76,21 @@ mpirun -x LD_LIBRARY_PATH -npernode {p_mpi['mpi_run']['npernode']} -n {p_mpi['mp
     print(f"[TSUBAME] Successfully generated {output_filename}")
 
 if __name__ == "__main__":
-    generate_mpirun_sh()
+    data = config.PARAMS
+    m_path = data['map']['path']
+    
+    dims = get_map_dimensions(m_path)
+
+    if dims:
+        nx, ny = dims
+        
+        # 1. Generate the TSUBAME-specific shell script
+        generate_mpirun_sh(data, nx, ny)
+        
+        # 2. Generate all the C++ templates and particle files (reusing functions)
+        generate_define_user(data)
+        generate_param_fluid(data)
+        generate_particles(data, nx, ny)
+        generate_read_particle_box(data)
+        
+        print("All TSUBAME template files generated successfully.")
