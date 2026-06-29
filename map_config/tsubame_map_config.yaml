@@ -1,0 +1,20 @@
+# map_config.yaml
+domain:
+  x_m: 4096.0   # Much larger domain length
+  y_m: 512.0    # Much larger domain width
+  res_m: 2.0    # 2 meters per cell
+
+output:
+  filename: "./map/map_flat_16m_approach.dat"
+
+obstacles:
+  # Approach section for turbulence generation
+  - type: "staggered_cubes"
+    x_start_m: 128.0
+    x_end_m: 3072.0
+    y_start_m: 16.0
+    y_end_m: 496.0
+    cube_size_m: 32.0
+    x_spacing_m: 64.0
+    y_spacing_m: 32.0
+    height: 16

@@ -33,8 +33,8 @@ user_output {
         const int       ni_out                  = 1;            // number of planes to be output (yz)
         const int       nv_out                  = 0;            // number of ranks to be out (volume output)
         const int kout[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32}; // Default: 47 layers {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64};
-        const int jout[] = {128};
-        const int iout[] = {80};
+        const int jout[] = {256};
+        const int iout[] = {3000};
         const int       vout_rank[] = {};                       // volume output
 //      const char      odir_user[] = "./Output/testesttest/";  // odir_user = <user output directoryvout_rank[] = {1};
 };

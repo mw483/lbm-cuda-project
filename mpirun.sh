@@ -31,12 +31,12 @@ mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
     -restart                0 \
     -fstart                 0 \
     -domain_min             -0.08 -0.08 -0.08 \
-    -length                 1024.0 256.0 160 \
+    -length                 4096.0 512.0 160 \
     -ncpu_div               1 1 1 1 \
     -flag_particle_generate 1 \
     -prestart               0 \
     -pout                   100 \
     -pstartstep             0 \
-    -particle               20000000 \
+    -particle               50000000 \
     -generate_step          100 \
     | tee -a log_t2sub.txt

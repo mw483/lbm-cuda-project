@@ -109,7 +109,10 @@ PARTICLE_SOURCES = [
         "heights": [0.1],
         "velocity": [0.0, 0.0, 0.1],
         "group": 1,
-        "x_max_ratio": 1.33,
+        "x_start": 0.0,
+        "x_end": 700.0,
+        "y_start": 0.0,
+        "y_end": 256.0,
         "y_padding": 4.0
     }
 ]

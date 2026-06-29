@@ -3,7 +3,7 @@ import numpy as np
 
 ENV_PARAMS = {
     "map": {
-        "path": "./map/map_02_full_roughness_extended.dat",
+        "path": "./map/map_flat_16m_approach.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
@@ -131,12 +131,15 @@ PARTICLE_SOURCES = [
         "heights": [0.1],
         "velocity": [0.0, 0.0, 0.1],
         "group": 1,
-        "x_max_ratio": 1.10,
+        "x_start": 3073.0,
+        "x_end": 3773.0,
+        "y_start": 0.0,
+        "y_end": 512.0,
         "y_padding": 8.0
     }
 ]
 
 PARTICLE_OUTPUT = {
-    "filename_pos": "pos_tsubame_extended.txt",
-    "filename_num": "num_tsubame_extended.txt"
+    "filename_pos": "pos_tsubame_flat.txt",
+    "filename_num": "num_tsubame_flat.txt"
 }

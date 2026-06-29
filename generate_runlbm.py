@@ -240,6 +240,7 @@ class ParticleGenerator:
         
         print("Done.")
 
+
 def generate_particles(params, nx, ny):
     p_map = params['map']
     domain_x_m = nx * p_map['physical_dx']
@@ -260,27 +261,37 @@ def generate_particles(params, nx, ny):
     for source in config.PARTICLE_SOURCES:
         
         if source["type"] == "uniform":
-            x_limit = domain_x_m / source['x_max_ratio']
-            y_min = source['y_padding']
-            y_max = domain_y_m - source['y_padding']
+            # 1. Map boundaries from configuration dict keys
+            x_min = source['x_start']
+            x_max = source['x_end']
             
-            raw_x = np.arange(source['spacing_x']/2, x_limit, source['spacing_x'])
-            raw_y = np.arange(source['spacing_y']/2, domain_y_m, source['spacing_y'])
+            # Apply padding cushion dynamically relative to target parameters
+            y_min = source['y_start'] + source['y_padding']
+            y_max = source['y_end'] - source['y_padding']
+            
+            # 2. Base Grid Arrays (Anchored to absolute 0.0 grid index + half spacing offsets)
+            # This ensures stable spacing alignments regardless of window coordinate scales
+            raw_x = np.arange(source['spacing_x'] / 2, domain_x_m, source['spacing_x'])
+            raw_y = np.arange(source['spacing_y'] / 2, domain_y_m, source['spacing_y'])
+            
+            # 3. Vectorized Bounding Box Filter Masks
+            x_coords = raw_x[(raw_x >= x_min) & (raw_x <= x_max)]
             y_coords = raw_y[(raw_y >= y_min) & (raw_y <= y_max)]
             
             u, v, w = source['velocity']
             
-            for x in raw_x:
+            # 4. Multi-layered point matrix constructor loops
+            for x in x_coords:
                 for y in y_coords:
                     for z in source['heights']:
                         current_id = (source_index * 10000) + 1
                         all_particles.append((x, y, z, u, v, w, source['group'], current_id))
                         
-                        # NEW: Add a dummy waypoint for this static particle
-                        # Format: Mode(0) NumWp(1) Time(0.0) dX(0.0) dY(0.0) dZ(0.0)
+                        # Build standard static waypoint baseline records
                         all_waypoints.append("0\t1\t0.000000\t0.000000\t0.000000\t0.000000")
                         source_index += 1
                         
+
         elif source["type"] == "point":
             # Native Python handling for a direct point source
             x, y, z = source["coords"]
@@ -356,6 +367,7 @@ def generate_particles(params, nx, ny):
     with open(filepath_wp, 'w', newline='\n') as f:
         for wp_row in all_waypoints:
             f.write(wp_row + "\n")
+
 
 def generate_read_particle_box(params):
     p_read = params['read_particle_box']
