@@ -1,6 +1,6 @@
+import config.config as config
 import os
 import stat
-import config
 
 # Import the shared template/particle generators so we don't duplicate code!
 from generate_runlbm import (

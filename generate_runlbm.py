@@ -1,4 +1,4 @@
-import config
+import config.config as config
 import os
 import shutil
 import numpy as np

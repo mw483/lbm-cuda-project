@@ -1,6 +1,7 @@
-# config.py
+# config_local.py
+import numpy as np
 
-PARAMS = {
+ENV_PARAMS = {
     "map": {
         "path": "./map/map_01_flat_plane.dat",
         "physical_dx": 2.0
@@ -43,7 +44,6 @@ PARAMS = {
         "point_g": [0.0, 0.0, 5.0],
         "vec_g": [1000.0, 1000.0, 256.0]
     },
-    # Append this inside the PARAMS dictionary in config.py
     "post_processing": {
         "execution": {
             "OMP_NUM_THREADS": 4
@@ -56,7 +56,6 @@ PARAMS = {
             "Y_RANK": 128
         },
         "domain": {
-            # Note: You could dynamically pull dX from PARAMS["map"]["physical_dx"] in the generator
             "X_DOMAIN": 512,
             "Y_DOMAIN": 128,
             "Z_DOMAIN": 80,
@@ -69,14 +68,6 @@ PARAMS = {
             "POUT": 100,
             "PGEN_STEP": 100,
             "NUM_GEN": 1843200
-        },
-        "flags": {
-            "FLG_NUM": 1,
-            "FLG_DENSITY": 0,
-            "FLG_PROFILE": 0,
-            "FLG_FOOT": 1,
-            "FLG_FLUX": 0,
-            "FLG_RESID": 0
         },
         "output_slices": {
             "N_XY": 32,
@@ -91,7 +82,6 @@ PARAMS = {
             "N_SOURCE": 3072,
             "ID_DIGIT": 3,
             "N_SENSOR": 3,
-            # Flattened [X, Y, Z] list for all sensors
             "CTR_SENSOR": [600, 96, 10, 
                            600, 128, 10, 
                            600, 160, 10],
@@ -108,71 +98,20 @@ PARAMS = {
             "FNAME_MAP": "./map/map_01_flat_plane.dat",
             "FNAME_SOURCE": "./particle_position/particle_position.txt"
         }
-    },
-    "tsubame_mpi": {
-        "scheduler": {
-            "node_f": 4,          # Number of physical nodes requested
-            "h_rt": "10:32:00",   # Max walltime
-            "job_name": "LBM_1_0"
-        },
-        "mpi_run": {
-            "npernode": 1,        # Processes per node
-            "n_total": 4          # Total processes (should equal node_f * npernode)
-        },
-        "lbm_args": {
-            "Time": 180005,
-            "NMPI": [4, 1, 1],    # Domain decomposition (must multiply to n_total)
-            "gpu_per_node": 1,
-            "ncpu_div": [1, 1, 1, 1],
-            "CFout": [500, 60000],
-            "CFRfrg": [1, 0, 1]
-        }
     }
 }
 
 PARTICLE_SOURCES = [
-    { # Comment or uncomment each block to set the desired type
+    {
         "type": "uniform",
         "spacing_x": 8.0,
         "spacing_y": 8.0,
         "heights": [0.1],
         "velocity": [0.0, 0.0, 0.1],
         "group": 1,
-        "x_max_ratio": 1.33, #x_limit = domain_x / x_max_ratio
+        "x_max_ratio": 1.33,
         "y_padding": 4.0
-    },
-    # {
-    #     "type": "point",
-    #     "num_particles": 100,
-    #     "coords": [100.0, 200.0, 0.01],
-    #     "velocity": [10.0, 0.0, 0.1], 
-    #     "group": 1
-    # },
-    # {
-    #     "type": "line",
-    #     "num_particles": 500,
-    #     "start": [10.0, 10.0, 0.1],
-    #     "end": [100.0, 10.0, 0.1],
-    #     "velocity": [0.0, 5.0, 0.1],
-    #     "group": 1
-    # },
-    # { # For mobile source modeling
-    #     "type": "waypoint",
-    #     "geometry": "line",   # line vs point
-    #     "mode": "pingpong",
-    #     "start_pos": [40.0, 120.0, 0.1],  # Start of the line
-    #     "end_pos": [50.0, 120.0, 0.1],    # End of the line
-    #     "num_points": 5,                 # 5 physical locations on the line
-    #     "particles_per_point": 10,       # 10 particles spawned at each location
-    #     "waypoints": [
-    #         (0.0, 0.0, 0.0, 0.0),        # Relative offsets from original particle position as waypoints
-    #         (45.0, 80.0, 0.0, 0.0),
-    #         (90.0, 80.0, -50.0, 0.0),
-    #         (135.0, 160.0, -50.0, 0.0)
-    #     ],
-    #     "velocity": [0.0, 0.0, 0.1],
-    #     "group": 1
-    # }
+    }
 ]
 
 PARTICLE_OUTPUT = {
