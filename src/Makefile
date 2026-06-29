@@ -1,5 +1,5 @@
-# Makefile
-
+ifdef TSUBAME 
+# Makefile for TSUBAME
 
 SRCS = main.cu
 include SourceList_Particle.mak
@@ -17,7 +17,7 @@ OBJS += $(filter %.o,$(SRCS:%.cpp=%.o))
 OBJS += $(filter %.o,$(SRCS:%.cu=%.o))
 
 ifeq ($(USEGPU),1)
-  OBJS += $(filter %.o,$(SRCGPUS:%.cu=%.o))
+OBJS += $(filter %.o,$(SRCGPUS:%.cu=%.o))
 endif
 
 CXX  = nvcc -ccbin=mpicxx
@@ -70,101 +70,102 @@ depend :
 
 # DO NOT DELETE
 
-
-# Old Makefile
-# # Makefile
-# CUDA_VERSION = 8.0
-# MPI_VERSION  = 2.1.2
-
-
-# SRCS = main.cu
-# include SourceList_Particle.mak
-
-# include sourceList_calculation.mak
-# include sourceList_function.mak
-# include sourceList_param.mak
-# include sourceList_output.mak
-
-# include sourceList_solid.mak
+else
+# Old Makefile for local server
+CUDA_VERSION = 8.0
+MPI_VERSION  = 2.1.2
 
 
-# OBJS =  $(filter %.o,$(SRCS:%.c=%.o))
-# OBJS += $(filter %.o,$(SRCS:%.cpp=%.o))
-# OBJS += $(filter %.o,$(SRCS:%.cu=%.o))
+SRCS = main.cu
+include SourceList_Particle.mak
 
-# ifeq ($(USEGPU),1)
-#   OBJS += $(filter %.o,$(SRCGPUS:%.cu=%.o))
-# endif
+include sourceList_calculation.mak
+include sourceList_function.mak
+include sourceList_param.mak
+include sourceList_output.mak
 
-
-# #CUDA_PATH = /apps/t3/sles12sp2/cuda/${CUDA_VERSION}
-# #MPI_PATH  = /apps/t3/sles12sp2/free/openmpi/${MPI_VERSION}/gnu
-# CUDA_PATH = /opt/cuda-8.0
-# #MPI_PATH = /home/inagaki/openmpi
-# MPI_PATH = /usr/local/openmpi-2.1.2
-
-# MPICC = mpic++
-# CC	  = mpicc
-# CXX	  = mpic++
-# NVCC  = nvcc
+include sourceList_solid.mak
 
 
-# #tsubame
-# CFLAGS	  = -Wall -O3 -Wextra
-# CFLAGS   += -I${MPI_PATH}/include
-# CFLAGS   += -I${CUDA_PATH}/include
+OBJS =  $(filter %.o,$(SRCS:%.c=%.o))
+OBJS += $(filter %.o,$(SRCS:%.cpp=%.o))
+OBJS += $(filter %.o,$(SRCS:%.cu=%.o))
 
-# NVCCFLAGS  = -O3 -use_fast_math --std c++11
-# #NVCCFLAGS += -Xptxas -v
-# NVCCFLAGS += -I${MPI_PATH}/include
-# NVCCFLAGS += -I${CUDA_PATH}/include
-# NVCCFLAGS +=  --gpu-architecture=sm_60
-# NVCCFLAGS +=  -maxrregcount 63
+ifeq ($(USEGPU),1)
+OBJS += $(filter %.o,$(SRCGPUS:%.cu=%.o))
+endif
 
 
-# LDFLAGS   = -lstdc++  -use_fast_math
-# LDFLAGS  += -L${MPI_PATH}/lib  -lmpi -lmpi_cxx
-# LDFLAGS  += -L${CUDA_PATH}/lib64  -lcudart
-# LDFLAGS  +=  --gpu-architecture=sm_60
+#CUDA_PATH = /apps/t3/sles12sp2/cuda/${CUDA_VERSION}
+#MPI_PATH  = /apps/t3/sles12sp2/free/openmpi/${MPI_VERSION}/gnu
+CUDA_PATH = /opt/cuda-8.0
+#MPI_PATH = /home/inagaki/openmpi
+MPI_PATH = /usr/local/openmpi-2.1.2
+
+MPICC = mpic++
+CC	  = mpicc
+CXX	  = mpic++
+NVCC  = nvcc
 
 
-# # run
-# TARGET	=	run
+#tsubame
+CFLAGS	  = -Wall -O3 -Wextra
+CFLAGS   += -I${MPI_PATH}/include
+CFLAGS   += -I${CUDA_PATH}/include
 
-# %.o: %.c
-# 		$(CC) $(CFLAGS) -c $<
-
-# %.o: %.cpp
-# 		$(CXX) $(CFLAGS) -c $<
-
-# %.o: %.cu
-# 		$(NVCC) $(NVCCFLAGS) -c $<
+NVCCFLAGS  = -O3 -use_fast_math --std c++11
+#NVCCFLAGS += -Xptxas -v
+NVCCFLAGS += -I${MPI_PATH}/include
+NVCCFLAGS += -I${CUDA_PATH}/include
+NVCCFLAGS +=  --gpu-architecture=sm_60
+NVCCFLAGS +=  -maxrregcount 63
 
 
-# all: $(TARGET)
+LDFLAGS   = -lstdc++  -use_fast_math
+LDFLAGS  += -L${MPI_PATH}/lib  -lmpi -lmpi_cxx
+LDFLAGS  += -L${CUDA_PATH}/lib64  -lcudart
+LDFLAGS  +=  --gpu-architecture=sm_60
 
-# $(TARGET): $(OBJS)
-# 		$(NVCC) $(LDFLAGS) -o $@ $(OBJS)
-# #$(TARGET): $(OBJS)
-# #		$(MPICC) $(LDFLAGS) -o $@ $(OBJS)
 
-# #etc
-# RRM     = *.o run_*.exe* *.oo *.linkinfo
-# RRMF    = .*.swp Makefile~ *.*~
-# RRMR    = ../result*/*.dat  ../result*/*.vtk  ../result*/*.vtr  ../result*/*.pvtr  ../result*/*.vtp ../result*/*.vtm
+# run
+TARGET	=	run
 
-# clean:
-# 		rm -rf $(RRM) $(TARGET)
+%.o: %.c
+		$(CC) $(CFLAGS) -c $<
 
-# c :
-# 		rm -rf $(RRM) $(TARGET)
+%.o: %.cpp
+		$(CXX) $(CFLAGS) -c $<
 
-# resultclean :
-# 		rm -rf $(RRM) $(RRMF) $(TARGET) $(RRMR)
+%.o: %.cu
+		$(NVCC) $(NVCCFLAGS) -c $<
 
-# depend :
-# 		makedepend -Y -f depend.mk -- $(CFLAGS) -- $(SRCS)
 
-# -include depend.mk
+all: $(TARGET)
 
-# # DO NOT DELETE
+$(TARGET): $(OBJS)
+		$(NVCC) $(LDFLAGS) -o $@ $(OBJS)
+#$(TARGET): $(OBJS)
+#		$(MPICC) $(LDFLAGS) -o $@ $(OBJS)
+
+#etc
+RRM     = *.o run_*.exe* *.oo *.linkinfo
+RRMF    = .*.swp Makefile~ *.*~
+RRMR    = ../result*/*.dat  ../result*/*.vtk  ../result*/*.vtr  ../result*/*.pvtr  ../result*/*.vtp ../result*/*.vtm
+
+clean:
+		rm -rf $(RRM) $(TARGET)
+
+c :
+		rm -rf $(RRM) $(TARGET)
+
+resultclean :
+		rm -rf $(RRM) $(RRMF) $(TARGET) $(RRMR)
+
+depend :
+		makedepend -Y -f depend.mk -- $(CFLAGS) -- $(SRCS)
+
+-include depend.mk
+
+# DO NOT DELETE
+
+endif
