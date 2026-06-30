@@ -12,19 +12,18 @@ from generate_runlbm import (
 )
 
 def generate_mpirun_sh(params, nx, ny):
-    p_run = params["runlbm.sh"]
-    p_map = params["map"]
-    p_mpi = params["tsubame_mpi"]
-
-    # Calculate grid size dynamically from the Map parser (assuming you have this logic)
+    p_run = params['runlbm.sh']
+    p_map = params['map']
+    p_mpi = params['tsubame_mpi']
+    p_transfer = params['automatic_transfer'] # Fetch the new cleanup rules
+    
     domain_x_m = nx * p_map['physical_dx']
     domain_y_m = ny * p_map['physical_dx']
     length_z = p_run['length_z']
 
-    # Helper function to format arrays
     def to_str(param_list):
         return " ".join(map(str, param_list))
-    
+
     content = f"""#!/bin/sh
 #$ -cwd
 #$ -l node_f={p_mpi['scheduler']['node_f']}
@@ -44,7 +43,7 @@ module load openmpi/5.0.2-gcc
 export OMP_NUM_THREADS=4
 cp $PE_HOSTFILE hostfile.txt
 
-# Execute via MPI
+# ====== 1. CORE SIMULATION RUN ======
 mpirun -x LD_LIBRARY_PATH -npernode {p_mpi['mpi_run']['npernode']} -n {p_mpi['mpi_run']['n_total']} ./run \\
     -Time                   {p_mpi['lbm_args']['Time']} \\
     -time_coef              {p_run['time_coef']} \\
@@ -67,19 +66,42 @@ mpirun -x LD_LIBRARY_PATH -npernode {p_mpi['mpi_run']['npernode']} -n {p_mpi['mp
     -particle               {p_run['max_particles']} \\
     -generate_step          {p_run['generate_step']} \\
     | tee -a log_t2sub.txt
+
+# ====== 2. AUTOMATIC POST-RUN TRANSFER ======
+echo "Simulation ended. Commencing automatic folder organization..."
+
+# Create target directory trees
+mkdir -p "{p_transfer['DEST_CSV']}"
+mkdir -p "{p_transfer['DEST_PAR']}"
+
+# Move files out of default staging directories safely
+mv ./Output/* "{p_transfer['DEST_CSV']}/" 2>/dev/null
+mv ./result_particle_scatter_binary/* "{p_transfer['DEST_PAR']}/" 2>/dev/null
+
+echo "Automatic data transfer complete."
 """
+
     output_filename = "mpirun.sh"
     with open(output_filename, "w", newline='\n') as f:
-        f.write(content) 
-    
+        f.write(content)
+        
     os.chmod(output_filename, os.stat(output_filename).st_mode | stat.S_IEXEC)
-    print(f"[TSUBAME] Successfully generated {output_filename}")
+    print(f"[TSUBAME] Generated mpirun.sh with built-in automatic transfer loops.")
 
 if __name__ == "__main__":
     data = config.PARAMS
     m_path = data['map']['path']
     
     dims = get_map_dimensions(m_path)
+
+    os.makedirs("./Output", exist_ok=True)
+    print("Verified CSV Output directory: ./Output")
+
+    os.makedirs("./result_particle_scatter_binary", exist_ok=True)
+    print("Verified Particle Output directory: ./result_particle_scatter_binary")
+
+    os.makedirs("./init_profile", exist_ok=True)
+    print("Verified Restart file directory: ./init_profile")
 
     if dims:
         nx, ny = dims

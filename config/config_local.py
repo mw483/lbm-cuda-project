@@ -37,6 +37,10 @@ ENV_PARAMS = {
             "flg_particle": 1
         }
     },
+    "automatic_transfer": {
+        "DEST_CSV": "./20260630_output_flat",
+        "DEST_PAR": "./20260630_particle_flat"
+    },
     "read_particle_box": {
         "pstart": 1200,
         "pnum": 2000,

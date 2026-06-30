@@ -56,6 +56,10 @@ ENV_PARAMS = {
             "CFRfrg": [1, 0, 1]
         }
     },
+    "automatic_transfer": {
+        "DEST_CSV": "./20260630_output_flat_16mapproach",
+        "DEST_PAR": "./20260630_particle_flat_16mapproach"
+    },
     "read_particle_box": {
         # Shifted upwind start position due to the extended approach fetch
         "pstart": 1200,

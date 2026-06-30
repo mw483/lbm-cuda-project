@@ -17,7 +17,7 @@ module load openmpi/5.0.2-gcc
 export OMP_NUM_THREADS=4
 cp $PE_HOSTFILE hostfile.txt
 
-# Execute via MPI
+# ====== 1. CORE SIMULATION RUN ======
 mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
     -Time                   180005 \
     -time_coef              0.01 \
@@ -40,3 +40,16 @@ mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
     -particle               50000000 \
     -generate_step          100 \
     | tee -a log_t2sub.txt
+
+# ====== 2. AUTOMATIC POST-RUN TRANSFER ======
+echo "Simulation ended. Commencing automatic folder organization..."
+
+# Create target directory trees
+mkdir -p "./20260630_output_flat_16mapproach"
+mkdir -p "./20260630_particle_flat_16mapproach"
+
+# Move files out of default staging directories safely
+mv ./Output/* "./20260630_output_flat_16mapproach/" 2>/dev/null
+mv ./result_particle_scatter_binary/* "./20260630_particle_flat_16mapproach/" 2>/dev/null
+
+echo "Automatic data transfer complete."

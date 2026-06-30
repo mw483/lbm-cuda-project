@@ -17,6 +17,7 @@ def get_map_dimensions(map_path):
 def generate_sh(params, nx, ny):
     p = params['runlbm.sh']
     map = params['map']
+    p_transfer = params['automatic_transfer'] 
 
     domain_x_m = nx * map['physical_dx']
     domain_y_m = ny * map['physical_dx']
@@ -51,6 +52,18 @@ mpirun -hostfile hostfile.txt -np 1 ./run \\
         -particle                       {p['max_particles']} \\
         -generate_step                  {p['generate_step']} \\
         | tee  -a  log_t2sub.txt
+
+echo "Simulation ended. Commencing automatic folder organization..."
+
+# Create target directory trees
+mkdir -p "{p_transfer['DEST_CSV']}"
+mkdir -p "{p_transfer['DEST_PAR']}"
+
+# Move files out of default staging directories safely
+mv ./Output/* "{p_transfer['DEST_CSV']}/" 2>/dev/null
+mv ./result_particle_scatter_binary/* "{p_transfer['DEST_PAR']}/" 2>/dev/null
+
+echo "Automatic data transfer complete."
 """
     
     with open("runlbm.sh", "w", newline='\n') as f:
@@ -391,6 +404,15 @@ if __name__ == "__main__":
     m_path = data['map']['path']
 
     dims = get_map_dimensions(m_path)
+
+    os.makedirs("./Output", exist_ok=True)
+    print("Verified CSV Output directory: ./Output")
+
+    os.makedirs("./result_particle_scatter_binary", exist_ok=True)
+    print("Verified Particle Output directory: ./result_particle_scatter_binary")
+
+    os.makedirs("./init_profile", exist_ok=True)
+    print("Verified Restart file directory: ./init_profile")
 
     if dims:
         nx, ny = dims

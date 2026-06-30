@@ -1,8 +1,8 @@
-PID=$(pgrep -u $(whoami) -f runlbm.sh) #PID of runlbm.sh, check the user also to make sure I am checking my simulation
+PID=$(pgrep -u $(whoami) -f mpirun.sh) #PID of runlbm.sh, check the user also to make sure I am checking my simulation
 SRC_CSV="./Output"
 SRC_PAR="./result_particle_scatter_binary"
-DEST_CSV="./20260619_output_flat_halfVSGS"
-DEST_PAR="./20260619_particle_flat_halfVSGS"
+DEST_CSV="./20260630_output_flat_16mapproach"
+DEST_PAR="./20260630_particle_flat_16mapproach"
 
 if [ -z "$PID" ]; then
     echo "Error: No simulation found for user $(whoami)."
