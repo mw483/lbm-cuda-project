@@ -629,8 +629,8 @@ boundary_LBM_x_inflow_outflow (
 		vs   =  0.0;
 		ws   =  0.0;
 //		Ts   =  T0 + dTdz * dz * (FLOAT)id_z / 4.0;	// MOD 2018
-		Ts   =  T0 + (dTdz * dz * fmax((FLOAT)id_z-(FLOAT)kzi/dz, (FLOAT)0.0)); 	//MOD 2018
-
+//		Ts   =  T0 + (dTdz * dz * fmax((FLOAT)id_z-(FLOAT)kzi/dz, (FLOAT)0.0)); 	//MOD 2018
+		Ts = T0 ;
 //		rhos =  r[id_g_r];
 //		us   =  u[id_g_r];
 //		vs   =  v[id_g_r];

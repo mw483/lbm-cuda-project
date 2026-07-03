@@ -1,7 +1,7 @@
 # deploy.ps1
 param (
     [ValidateSet("Lab", "TSUBAME")]
-    [string]$Target = "TSUBAME"
+    [string]$Target = "Lab"
 )
 
 $sourcePath = "./"
@@ -33,8 +33,9 @@ $rsyncArgs = @(
     "--exclude=deploy.ps1",
     "--exclude=Output_*/",
     "--exclude=*.exe",
-    "--exclude=*.obj",
+    "--exclude=*.o",
     "--exclude=Particle_PostProcess_Outputs",
+    "--exclude=src_old_tsubame/",
     $sourcePath,
     "${destRemote}:${destPath}"
 )

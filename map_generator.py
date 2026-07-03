@@ -3,7 +3,7 @@ import yaml
 import os
 
 map_config_dir = "map_config"
-map_config_file = "tsubame_map_config.yaml"
+map_config_file = "extended_flat_map_config.yaml"
 
 full_path = os.path.join(".", map_config_dir, map_config_file)
 

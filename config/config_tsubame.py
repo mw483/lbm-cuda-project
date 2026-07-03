@@ -13,7 +13,7 @@ ENV_PARAMS = {
         "velocity_lbm": 2.0,
         "flag_particle_generate": 1,
         "pout": 100,
-        "max_particles": 50000000,
+        "max_particles": 2000000,
         "generate_step": 100
     },
     "Define_user.h": {
@@ -28,8 +28,8 @@ ENV_PARAMS = {
             "output_interval_ins": 600.0,
             "time_output_ins_ini": 0.0,
             "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32, 40, 48, 56, 64, 72, 80],
-            "jout": [256],
-            "iout": [3000]
+            "jout": [128],
+            "iout": [1500]
         },
         "flags": {
             "flg_buoyancy": 0,
@@ -39,18 +39,18 @@ ENV_PARAMS = {
     },
     "tsubame_mpi": {
         "scheduler": {
-            "node_f": 4,
+            "node_f": 4,          # Change from 4 to 1 (You only need 1 node for 4 ranks)
             "h_rt": "10:32:00",
             "job_name": "LBM_1_0"
         },
         "mpi_run": {
-            "npernode": 1,
-            "n_total": 4
+            "npernode": 4,        # Change from 1 to 4 (Pack 4 ranks on the node)
+            "n_total": 4          # Keep total ranks at 4
         },
         "lbm_args": {
             "Time": 180005,
             "NMPI": [4, 1, 1],
-            "gpu_per_node": 1,
+            "gpu_per_node": 1,    # Change from 1 to 4 (Use all 4 GPUs on that single node)
             "ncpu_div": [1, 1, 1, 1],
             "CFout": [500, 60000],
             "CFRfrg": [1, 0, 1]
@@ -99,7 +99,7 @@ ENV_PARAMS = {
             "N_XZ": 5,
             "Y_OUT": [250, 252, 254, 256, 258],
             "N_YZ": 1,
-            "X_OUT": [1800]  # Shifted downstream output slice
+            "X_OUT": [1500]  # Shifted downstream output slice
         },
         "footprint_sensors": {
             "H_AVE": 2,

@@ -3,7 +3,7 @@ import numpy as np
 
 ENV_PARAMS = {
     "map": {
-        "path": "./map/map_01_flat_plane.dat",
+        "path": "./map/map_flat_16m_shortroughness.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
@@ -13,7 +13,7 @@ ENV_PARAMS = {
         "velocity_lbm": 2.0,
         "flag_particle_generate": 1,
         "pout": 100,
-        "max_particles": 20000000,
+        "max_particles": 2000000,
         "generate_step": 100
     },
     "Define_user.h": {
@@ -28,8 +28,8 @@ ENV_PARAMS = {
             "output_interval_ins": 600.0,
             "time_output_ins_ini": 0.0,
             "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32],
-            "jout": [128],
-            "iout": [80]
+            "jout": [64],
+            "iout": [64]
         },
         "flags": {
             "flg_buoyancy": 0,
@@ -38,8 +38,8 @@ ENV_PARAMS = {
         }
     },
     "automatic_transfer": {
-        "DEST_CSV": "./20260630_output_flat",
-        "DEST_PAR": "./20260630_particle_flat"
+        "DEST_CSV": "./20260703_output_flat_shortroughness",
+        "DEST_PAR": "./20260703_particle_flat_shortroughness"
     },
     "read_particle_box": {
         "pstart": 1200,
@@ -60,7 +60,7 @@ ENV_PARAMS = {
             "Y_RANK": 128
         },
         "domain": {
-            "X_DOMAIN": 512,
+            "X_DOMAIN": 640,
             "Y_DOMAIN": 128,
             "Z_DOMAIN": 80,
             "dX": 2.0,
@@ -74,8 +74,8 @@ ENV_PARAMS = {
             "NUM_GEN": 1843200
         },
         "output_slices": {
-            "N_XY": 32,
-            "Z_OUT": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 40, 42, 44, 46, 48, 50, 60, 70, 80, 90, 100, 120, 140, 160],
+            "N_XY": 27,
+            "Z_OUT": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 40, 42, 44, 46, 48, 50, 60, 70, 80],
             "N_XZ": 5,
             "Y_OUT": [124, 126, 128, 130, 132],
             "N_YZ": 1,
@@ -97,9 +97,9 @@ ENV_PARAMS = {
             "Z_RESID": 10
         },
         "paths": {
-            "DIR_DATA": "./20260619_particle_flat_halfVSGS",
-            "DIR_OUT": "./Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8",
-            "FNAME_MAP": "./map/map_01_flat_plane.dat",
+            "DIR_DATA": "./20260703_particle_flat_shortroughness",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260703_particle_flat_shortroughness/sensor_40x40x8",
+            "FNAME_MAP": "./map/map_flat_16m_shortroughness.dat",
             "FNAME_SOURCE": "./particle_position/particle_position.txt"
         }
     }
@@ -113,8 +113,8 @@ PARTICLE_SOURCES = [
         "heights": [0.1],
         "velocity": [0.0, 0.0, 0.1],
         "group": 1,
-        "x_start": 0.0,
-        "x_end": 700.0,
+        "x_start": 128.0,
+        "x_end": 828.0,
         "y_start": 0.0,
         "y_end": 256.0,
         "y_padding": 4.0
@@ -122,6 +122,6 @@ PARTICLE_SOURCES = [
 ]
 
 PARTICLE_OUTPUT = {
-    "filename_pos": "pos_flat_3072.txt",
-    "filename_num": "num_flat_3072.txt"
+    "filename_pos": "pos_flat_3072_shortroughness.txt",
+    "filename_num": "num_flat_3072_shortroughness.txt"
 }

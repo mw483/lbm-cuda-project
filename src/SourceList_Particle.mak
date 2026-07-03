@@ -10,5 +10,5 @@ SRCS += ParamParticle_MPI.cu  \
 SRCS += paramParticle.cu \
 SRCS += boundary_flag_particle.cu \
 SRCS += mathLib_particle.cu \
-SRCS += Particle_Lagrangian \
+#SRCS += Particle_Lagrangian \
 #SRCS += Math_Lib_Particle.cu  \

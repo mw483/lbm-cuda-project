@@ -1,0 +1,20 @@
+# map_config.yaml
+domain:
+  x_m: 1280.0   # an extra 128 meter in front with roughness
+  y_m: 256.0    
+  res_m: 2.0    
+
+output:
+  filename: "./map/map_flat_16m_shortroughness.dat"
+
+obstacles:
+  # Approach section for turbulence generation
+  - type: "staggered_cubes"
+    x_start_m: 16.0
+    x_end_m: 112.0
+    y_start_m: 8.0
+    y_end_m: 248.0
+    cube_size_m: 16.0
+    x_spacing_m: 16.0
+    y_spacing_m: 16.0
+    height: 16

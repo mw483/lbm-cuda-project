@@ -24,7 +24,7 @@ CXX  = nvcc -ccbin=mpicxx
 LD   = $(CXX)
 
 
-CXXFLAGS  = -O3 -use_fast_math -std=c++11
+CXXFLAGS  = -g -lineinfo -O3 -use_fast_math -std=c++11
 CXXFLAGS += -Xcompiler="-O3 -Wall -Wextra"
 CXXFLAGS += -arch=sm_90
 CXXFLAGS += -maxrregcount=63

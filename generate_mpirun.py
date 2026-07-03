@@ -94,13 +94,13 @@ if __name__ == "__main__":
     
     dims = get_map_dimensions(m_path)
 
-    os.makedirs("./Output", exist_ok=True)
+    os.makedirs("../Output", exist_ok=True)
     print("Verified CSV Output directory: ./Output")
 
-    os.makedirs("./result_particle_scatter_binary", exist_ok=True)
+    os.makedirs("../result_particle_scatter_binary", exist_ok=True)
     print("Verified Particle Output directory: ./result_particle_scatter_binary")
 
-    os.makedirs("./init_profile", exist_ok=True)
+    os.makedirs("../init_profile", exist_ok=True)
     print("Verified Restart file directory: ./init_profile")
 
     if dims:

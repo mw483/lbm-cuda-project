@@ -17,12 +17,24 @@ mpirun -hostfile hostfile.txt -np 1 ./run \
         -restart                        0 \
         -fstart                         0 \
         -domain_min                     -0.08   -0.08   -0.08 \
-        -length                         1024.0     256.0     160 \
+        -length                         1280.0     256.0     160 \
         -ncpu_div                       1       1       1       1 \
         -flag_particle_generate         1 \
         -prestart                       0 \
         -pout                           100 \
         -pstartstep                     0 \
-        -particle                       20000000 \
+        -particle                       2000000 \
         -generate_step                  100 \
         | tee  -a  log_t2sub.txt
+
+echo "Simulation ended. Commencing automatic folder organization..."
+
+# Create target directory trees
+mkdir -p "./20260703_output_flat_shortroughness"
+mkdir -p "./20260703_particle_flat_shortroughness"
+
+# Move files out of default staging directories safely
+mv ./Output/* "./20260703_output_flat_shortroughness/" 2>/dev/null
+mv ./result_particle_scatter_binary/* "./20260703_particle_flat_shortroughness/" 2>/dev/null
+
+echo "Automatic data transfer complete."

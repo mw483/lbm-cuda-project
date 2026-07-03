@@ -18,7 +18,7 @@ export OMP_NUM_THREADS=4
 cp $PE_HOSTFILE hostfile.txt
 
 # ====== 1. CORE SIMULATION RUN ======
-mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
+mpirun -x LD_LIBRARY_PATH -npernode 4 -n 4 ./run \
     -Time                   180005 \
     -time_coef              0.01 \
     -NMPI                   4 1 1 \
@@ -37,7 +37,7 @@ mpirun -x LD_LIBRARY_PATH -npernode 1 -n 4 ./run \
     -prestart               0 \
     -pout                   100 \
     -pstartstep             0 \
-    -particle               50000000 \
+    -particle               2000000 \
     -generate_step          100 \
     | tee -a log_t2sub.txt
 
