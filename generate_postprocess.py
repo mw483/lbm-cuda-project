@@ -1,8 +1,10 @@
 import os
 import stat
-from config import PARAMS
+# Import the dynamically merged PARAMS from your new config package layout
+from config.config import PARAMS
 
 def generate_postprocess_sh():
+    # Access the post-processing configuration dictionary block
     p = PARAMS["post_processing"]
     
     # 1. DYNAMIC FOLDER NAMING
@@ -18,7 +20,7 @@ def generate_postprocess_sh():
     folder_name = f"{p['timing']['FILE_START']}-{p['timing']['FILE_END']}_{flag_suffix}"
 
     # Construct the final DIR_OUT path using a base directory
-    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/20260619_particle_flat_halfVSGS/sensor_40x40x8')
+    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/20260612_particle_cube_3072/sensor_8x8x8')
     dir_out = f"{base_out}/{folder_name}"
 
     # Helper function to format arrays for Bash

@@ -83,13 +83,44 @@ ENV_PARAMS = {
         },
         "footprint_sensors": {
             "H_AVE": 2,
-            "N_SOURCE": 3072,
+            "N_SOURCE": 2816,
             "ID_DIGIT": 3,
-            "N_SENSOR": 3,
-            "CTR_SENSOR": [600, 96, 10, 
-                           600, 128, 10, 
-                           600, 160, 10],
-            "SIZE_SENSOR": [40, 40, 8]
+            "N_SENSOR": 33,
+            "CTR_SENSOR": [728, 0, 20, 
+                           728, 8, 20, 
+                           728, 16, 20,
+                           728, 24, 20, 
+                           728, 32, 20, 
+                           728, 40, 20,
+                           728, 48, 20, 
+                           728, 56, 20, 
+                           728, 64, 20,
+                           728, 72, 20, 
+                           728, 80, 20, 
+                           728, 88, 20,
+                           728, 96, 20, 
+                           728, 104, 20, 
+                           728, 112, 20,
+                           728, 120, 20, 
+                           728, 128, 20, 
+                           728, 136, 20,
+                           728, 144, 20, 
+                           728, 152, 20, 
+                           728, 160, 20,
+                           728, 168, 20, 
+                           728, 176, 20, 
+                           728, 184, 20,
+                           728, 192, 20,
+                           728, 200, 20,
+                           728, 208, 20,
+                           728, 216, 20,
+                           728, 224, 20,
+                           728, 232, 20,
+                           728, 240, 20,
+                           728, 248, 20,
+                           728, 256, 20,
+                           ],
+            "SIZE_SENSOR": [8, 8, 8]
         },
         "flux_resid": {
             "N_FLUX": 9,
@@ -98,9 +129,9 @@ ENV_PARAMS = {
         },
         "paths": {
             "DIR_DATA": "./20260703_particle_flat_shortroughness",
-            "DIR_OUT": "./Particle_PostProcess_Outputs/20260703_particle_flat_shortroughness/sensor_40x40x8",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260703_particle_flat_shortroughness/sensor_8x8x8",
             "FNAME_MAP": "./map/map_flat_16m_shortroughness.dat",
-            "FNAME_SOURCE": "./particle_position/particle_position.txt"
+            "FNAME_SOURCE": "./particle_position/pos_flat_3072_shortroughness.txt"
         }
     }
 }
@@ -125,3 +156,132 @@ PARTICLE_OUTPUT = {
     "filename_pos": "pos_flat_3072_shortroughness.txt",
     "filename_num": "num_flat_3072_shortroughness.txt"
 }
+
+## Below config is for short roughness case
+# config_local.py
+# import numpy as np
+
+# ENV_PARAMS = {
+#     "map": {
+#         "path": "./map/map_flat_16m_shortroughness.dat",
+#         "physical_dx": 2.0
+#     },
+#     "runlbm.sh": {
+#         "Time": 185005,
+#         "time_coef": 0.01,
+#         "length_z": 160,
+#         "velocity_lbm": 2.0,
+#         "flag_particle_generate": 1,
+#         "pout": 100,
+#         "max_particles": 2000000,
+#         "generate_step": 100
+#     },
+#     "Define_user.h": {
+#         "init": {
+#             "DTDZ_LOW": 0.00,
+#             "DTDZ_HIGH": 0.00,
+#             "hf": 0.0
+#         },
+#         "output": {
+#             "average_interval": 600.0,
+#             "skip_time": 0.0,
+#             "output_interval_ins": 600.0,
+#             "time_output_ins_ini": 0.0,
+#             "kout": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 25, 28, 30, 32],
+#             "jout": [64],
+#             "iout": [64]
+#         },
+#         "flags": {
+#             "flg_buoyancy": 0,
+#             "flg_scalar": 0,
+#             "flg_particle": 1
+#         }
+#     },
+#     "automatic_transfer": {
+#         "DEST_CSV": "./20260703_output_flat_shortroughness",
+#         "DEST_PAR": "./20260703_particle_flat_shortroughness"
+#     },
+#     "read_particle_box": {
+#         "pstart": 1200,
+#         "pnum": 2000,
+#         "num_g": [50, 50, 5],
+#         "point_g": [0.0, 0.0, 5.0],
+#         "vec_g": [1000.0, 1000.0, 256.0]
+#     },
+#     "post_processing": {
+#         "execution": {
+#             "OMP_NUM_THREADS": 4
+#         },
+#         "mpi_grid": {
+#             "NUM_RANK": 1,
+#             "X_NUM_RANK": 1,
+#             "Y_NUM_RANK": 1,
+#             "X_RANK": 512,
+#             "Y_RANK": 128
+#         },
+#         "domain": {
+#             "X_DOMAIN": 640,
+#             "Y_DOMAIN": 128,
+#             "Z_DOMAIN": 80,
+#             "dX": 2.0,
+#             "dT": 0.01
+#         },
+#         "timing": {
+#             "FILE_START": 1200,
+#             "FILE_END": 1800,
+#             "POUT": 100,
+#             "PGEN_STEP": 100,
+#             "NUM_GEN": 1843200
+#         },
+#         "output_slices": {
+#             "N_XY": 27,
+#             "Z_OUT": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 40, 42, 44, 46, 48, 50, 60, 70, 80],
+#             "N_XZ": 5,
+#             "Y_OUT": [124, 126, 128, 130, 132],
+#             "N_YZ": 1,
+#             "X_OUT": [500]
+#         },
+#         "footprint_sensors": {
+#             "H_AVE": 2,
+#             "N_SOURCE": 3072,
+#             "ID_DIGIT": 3,
+#             "N_SENSOR": 3,
+#             "CTR_SENSOR": [600, 96, 10, 
+#                            600, 128, 10, 
+#                            600, 160, 10],
+#             "SIZE_SENSOR": [40, 40, 8]
+#         },
+#         "flux_resid": {
+#             "N_FLUX": 9,
+#             "Z_FLUX": [8, 9, 10, 16, 17, 18, 32, 33, 34],
+#             "Z_RESID": 10
+#         },
+#         "paths": {
+#             "DIR_DATA": "./20260703_particle_flat_shortroughness",
+#             "DIR_OUT": "./Particle_PostProcess_Outputs/20260703_particle_flat_shortroughness/sensor_40x40x8",
+#             "FNAME_MAP": "./map/map_flat_16m_shortroughness.dat",
+#             "FNAME_SOURCE": "./particle_position/particle_position.txt"
+#         }
+#     }
+# }
+
+# PARTICLE_SOURCES = [
+#     {
+#         "type": "uniform",
+#         "spacing_x": 8.0,
+#         "spacing_y": 8.0,
+#         "heights": [0.1],
+#         "velocity": [0.0, 0.0, 0.1],
+#         "group": 1,
+#         "x_start": 128.0,
+#         "x_end": 828.0,
+#         "y_start": 0.0,
+#         "y_end": 256.0,
+#         "y_padding": 4.0
+#     }
+# ]
+
+# PARTICLE_OUTPUT = {
+#     "filename_pos": "pos_flat_3072_shortroughness.txt",
+#     "filename_num": "num_flat_3072_shortroughness.txt"
+# }
