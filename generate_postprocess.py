@@ -1,11 +1,11 @@
 import os
 import stat
 # Import the dynamically merged PARAMS from your new config package layout
-from config.config import PARAMS
+import config.config as config
 
 def generate_postprocess_sh():
     # Access the post-processing configuration dictionary block
-    p = PARAMS["post_processing"]
+    p = config.PARAMS["post_processing"]
     
     # 1. DYNAMIC FOLDER NAMING
     # Automatically read flags to build the output suffix (e.g., "_density_footprint")
@@ -20,7 +20,7 @@ def generate_postprocess_sh():
     folder_name = f"{p['timing']['FILE_START']}-{p['timing']['FILE_END']}_{flag_suffix}"
 
     # Construct the final DIR_OUT path using a base directory
-    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/20260612_particle_cube_3072/sensor_8x8x8')
+    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/sensor_8x8x8/1200-1800_footprint')
     dir_out = f"{base_out}/{folder_name}"
 
     # Helper function to format arrays for Bash
@@ -33,7 +33,7 @@ def generate_postprocess_sh():
 export OMP_NUM_THREADS={p['execution']['OMP_NUM_THREADS']}
 
 # The path to your compiled global C++ executable
-ENGINE_PATH="/data/mikael/LBM_particle_test/Particle_PostProcessing_CPP/src/run_analysis"
+ENGINE_PATH="./Particle_PostProcessing_CPP/src/run_analysis"
 
 # Automatically create the output directory before running
 mkdir -p "{dir_out}"
