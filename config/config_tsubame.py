@@ -117,6 +117,11 @@ ENV_PARAMS = {
             "Z_FLUX": [8, 9, 10, 16, 17, 18, 32, 33, 34],
             "Z_RESID": 20
         },
+        "blend_foot": {
+            "CTR_SENSOR_BLEND": [3672, 256, 30],
+            "SIZE_SENSOR_BLEND": [40, 40, 8],
+            "Z_BLEND": 30
+        },
         "paths": {
             "DIR_DATA": "/gs/bs/tga-lbmcity/mikael/LBM_particle_test/production_run_extended",
             "DIR_OUT": "/gs/bs/tga-lbmcity/mikael/LBM_particle_test/Particle_PostProcess_Outputs/sensor_40x40x8",

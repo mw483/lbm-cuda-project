@@ -3,7 +3,7 @@ import numpy as np
 
 ENV_PARAMS = {
     "map": {
-        "path": "./map/map_flat_16m_shortroughness.dat",
+        "path": "./map/map_02_full_roughness.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
@@ -38,8 +38,8 @@ ENV_PARAMS = {
         }
     },
     "automatic_transfer": {
-        "DEST_CSV": "./20260703_output_flat_shortroughness",
-        "DEST_PAR": "./20260703_particle_flat_shortroughness"
+        "DEST_CSV": "./20260612_output_cube_3072",
+        "DEST_PAR": "./20260612_particle_cube_3072"
     },
     "read_particle_box": {
         "pstart": 1200,
@@ -60,7 +60,7 @@ ENV_PARAMS = {
             "Y_RANK": 128
         },
         "domain": {
-            "X_DOMAIN": 640,
+            "X_DOMAIN": 512,
             "Y_DOMAIN": 128,
             "Z_DOMAIN": 80,
             "dX": 2.0,
@@ -83,42 +83,42 @@ ENV_PARAMS = {
         },
         "footprint_sensors": {
             "H_AVE": 2,
-            "N_SOURCE": 2816,
+            "N_SOURCE": 3072,
             "ID_DIGIT": 3,
             "N_SENSOR": 33,
-            "CTR_SENSOR": [728, 0, 20, 
-                           728, 8, 20, 
-                           728, 16, 20,
-                           728, 24, 20, 
-                           728, 32, 20, 
-                           728, 40, 20,
-                           728, 48, 20, 
-                           728, 56, 20, 
-                           728, 64, 20,
-                           728, 72, 20, 
-                           728, 80, 20, 
-                           728, 88, 20,
-                           728, 96, 20, 
-                           728, 104, 20, 
-                           728, 112, 20,
-                           728, 120, 20, 
-                           728, 128, 20, 
-                           728, 136, 20,
-                           728, 144, 20, 
-                           728, 152, 20, 
-                           728, 160, 20,
-                           728, 168, 20, 
-                           728, 176, 20, 
-                           728, 184, 20,
-                           728, 192, 20,
-                           728, 200, 20,
-                           728, 208, 20,
-                           728, 216, 20,
-                           728, 224, 20,
-                           728, 232, 20,
-                           728, 240, 20,
-                           728, 248, 20,
-                           728, 256, 20,
+            "CTR_SENSOR": [600, 0, 20, 
+                           600, 8, 20, 
+                           600, 16, 20,
+                           600, 24, 20, 
+                           600, 32, 20, 
+                           600, 40, 20,
+                           600, 48, 20, 
+                           600, 56, 20, 
+                           600, 64, 20,
+                           600, 72, 20, 
+                           600, 80, 20, 
+                           600, 88, 20,
+                           600, 96, 20, 
+                           600, 104, 20, 
+                           600, 112, 20,
+                           600, 120, 20, 
+                           600, 128, 20, 
+                           600, 136, 20,
+                           600, 144, 20, 
+                           600, 152, 20, 
+                           600, 160, 20,
+                           600, 168, 20, 
+                           600, 176, 20, 
+                           600, 184, 20,
+                           600, 192, 20,
+                           600, 200, 20,
+                           600, 208, 20,
+                           600, 216, 20,
+                           600, 224, 20,
+                           600, 232, 20,
+                           600, 240, 20,
+                           600, 248, 20,
+                           600, 256, 20,
                            ],
             "SIZE_SENSOR": [8, 8, 8]
         },
@@ -127,11 +127,16 @@ ENV_PARAMS = {
             "Z_FLUX": [8, 9, 10, 16, 17, 18, 32, 33, 34],
             "Z_RESID": 10
         },
+        "blend_foot": {
+            "CTR_SENSOR_BLEND": [600, 128, 30],
+            "SIZE_SENSOR_BLEND": [40, 40, 8],
+            "Z_BLEND": 20
+        },
         "paths": {
-            "DIR_DATA": "./20260703_particle_flat_shortroughness",
-            "DIR_OUT": "./Particle_PostProcess_Outputs/20260703_particle_flat_shortroughness/sensor_8x8x8",
-            "FNAME_MAP": "./map/map_flat_16m_shortroughness.dat",
-            "FNAME_SOURCE": "./particle_position/pos_flat_3072_shortroughness.txt"
+            "DIR_DATA": "./20260612_particle_cube_3072",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260612_particle_cube_3072/sensor_40x40x8",
+            "FNAME_MAP": "./map/map_02_full_roughness.dat",
+            "FNAME_SOURCE": "./particle_position/pos_cube_3072.txt"
         }
     }
 }

@@ -142,6 +142,12 @@ void Set_Value::option_read(char *argv[], Setting& setting) {
 		std::exit(0);
 	}
 
+	if (strcmp(argv[++i], "-FLG_BLEND_FOOT") 	==0) setting.FLG_BLEND_FOOT 		= atoi(argv[++i]);
+	else {
+		std::cout << "run.sh is wrong. (FLG_BLEND_FOOT)" 	<< std::endl;
+		std::exit(0);
+	}
+
 	if (strcmp(argv[++i], "-N_XY") 				==0) setting.N_XY 				= atoi(argv[++i]);
 	else {
 		std::cout << "run.sh is wrong. (N_XY)" 				<< std::endl;
@@ -243,6 +249,38 @@ void Set_Value::option_read(char *argv[], Setting& setting) {
 		std::exit(0);
 	}
 
+	// -------------------------------------------------------------
+    // --- NEW ADDITION: Blending Height Virtual Sensor Parsing ---
+    // -------------------------------------------------------------
+    
+    // We assume N_SENSOR_BLEND is always 1 for this prototype, but we parse 
+    // the arrays identically to keep the architecture consistent.
+
+    if (strcmp(argv[++i], "-CTR_SENSOR_BLEND") == 0) {
+        for (int ii = 0; ii < 3; ii++) {
+            setting.CTR_SENSOR_BLEND[ii] = atof(argv[++i]);
+        }
+    } else {
+        std::cout << "run.sh is wrong. (CTR_SENSOR_BLEND)" << std::endl;
+        std::exit(0);
+    }
+
+    if (strcmp(argv[++i], "-SIZE_SENSOR_BLEND") == 0) {
+        for (int ii = 0; ii < 3; ii++) {
+            setting.SIZE_SENSOR_BLEND[ii] = atof(argv[++i]);
+        }
+    } else {
+        std::cout << "run.sh is wrong. (SIZE_SENSOR_BLEND)" << std::endl;
+        std::exit(0);
+    }
+
+    if (strcmp(argv[++i], "-Z_BLEND") == 0) {
+        setting.Z_BLEND = atof(argv[++i]);
+    } else {
+        std::cout << "run.sh is wrong. (Z_BLEND)" << std::endl;
+        std::exit(0);
+    }
+
 	if (strcmp(argv[++i], "-DIR_DATA") 		==0) setting.DIR_DATA 		= argv[++i];
 	else {
 		std::cout << "run.sh is wrong. (DIR_DATA)" 			<< std::endl;
@@ -286,6 +324,9 @@ void Set_Value::output_info () {
 	std::cout << "-                                       -" << std::endl;
 	std::cout << "- Ver.1.1 (2021/03/30)                  -" << std::endl;
 	std::cout << "-  -> ParticleResidenceTime             -" << std::endl;
+	std::cout << "-                                       -" << std::endl;
+	std::cout << "- Ver.1.2 (2026/07/13)                  -" << std::endl;
+	std::cout << "-  -> ParticleBlendingFootprint         -" << std::endl;
 	std::cout << "-                                       -" << std::endl;
 	std::cout << "-----------------------------------------" << std::endl;
 	std::cout << std::endl;
@@ -357,6 +398,9 @@ void Set_Value::output_setting (Setting& setting) {
 	std::cout << "--- For Residence ---"											<< std::endl;
 	std::cout << "Z_RESID      = " << setting.Z_RESID         << std::endl;
 	std::cout << std::endl;
+	std::cout << "--- For Blending Footprint ---"											<< std::endl;
+	std::cout << "Z_BLEND      = " << setting.Z_BLEND         << std::endl;
+	std::cout << std::endl;
 	std::cout << "--- Data / Output ---" 											<< std::endl;
 	std::cout << "DIR_DATA     = " << setting.DIR_DATA				<< std::endl;
 	std::cout << "DIR_OUT      = " << setting.DIR_OUT					<< std::endl;
@@ -369,6 +413,7 @@ void Set_Value::output_setting (Setting& setting) {
 	std::string	flg_footprint	= "off";
 	std::string	flg_flux			= "off";
 	std::string	flg_residual	= "off";
+	std::string	flg_blend_foot	= "off";
 
 	if (setting.FLG_NUM 		== 1) flg_num 			= "on";
 	if (setting.FLG_DENSITY == 1) flg_density 	= "on";
@@ -376,6 +421,7 @@ void Set_Value::output_setting (Setting& setting) {
 	if (setting.FLG_FOOT		== 1) flg_footprint = "on";
 	if (setting.FLG_FLUX 		== 1) flg_flux			= "on";
 	if (setting.FLG_RESID 	== 1) flg_residual 	= "on";
+	if (setting.FLG_BLEND_FOOT 	== 1) flg_blend_foot 	= "on";
 
 	std::cout << "- Num        : " << flg_num									<< std::endl;
 	std::cout << "- Density    : " << flg_density							<< std::endl;
@@ -383,6 +429,7 @@ void Set_Value::output_setting (Setting& setting) {
 	std::cout << "- Footprint  : " << flg_footprint						<< std::endl;
 	std::cout << "- Flux       : " << flg_flux								<< std::endl;
 	std::cout << "- Residual   : " << flg_residual						<< std::endl;
+	std::cout << "- Blending   : " << flg_blend_foot						<< std::endl;
 	std::cout << "-----------------------------------------"  << std::endl;
 	std::cout << std::endl;
 }

@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 	std::cout << "Start post-processing. " << std::endl;
 	std::cout << std::endl;
 		
-	if (setting.FLG_FOOT == 1 || setting.FLG_FLUX == 1 || setting.FLG_RESID) {
+	if (setting.FLG_FOOT == 1 || setting.FLG_FLUX == 1 || setting.FLG_RESID == 1 || setting.FLG_BLEND_FOOT == 1) {
 		calculation_index(setting);
 	} else {
 		calculation_pos(setting);

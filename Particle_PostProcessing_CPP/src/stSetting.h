@@ -31,21 +31,22 @@ struct Setting {
 		int			FLG_FOOT;
 		int			FLG_FLUX;
 		int			FLG_RESID;
+		int			FLG_BLEND_FOOT;
 	
 		// For density
 		int			N_XY;
-		float*	Z_OUT;
+		float*		Z_OUT;
 		int 		N_XZ;
-		float* 	Y_OUT;
+		float* 		Y_OUT;
 		int			N_YZ;
-		float*	X_OUT;
+		float*		X_OUT;
 		float		H_AVE;
 
 		// For footprint
 		int 		N_SOURCE;
 		int 		ID_DIGIT;
 		int			N_SENSOR;
-		float*	CTR_SENSOR;
+		float*	    CTR_SENSOR;
 		float		SIZE_SENSOR[3];
 
 		// For flux
@@ -54,6 +55,11 @@ struct Setting {
 		
 		// For Residence time
 		float		Z_RESID;
+
+		// For blending height footprint MIKAEL WIJAYA 2026
+		float 		CTR_SENSOR_BLEND[3];
+		float		SIZE_SENSOR_BLEND[3];
+		float 		Z_BLEND;
 
 		// Directory
 		char*		DIR_DATA;

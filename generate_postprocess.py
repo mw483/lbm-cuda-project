@@ -15,6 +15,7 @@ def generate_postprocess_sh():
     if p['flags']['FLG_FLUX'] == 1: active_flags.append("flux")
     if p['flags']['FLG_PROFILE'] == 1: active_flags.append("profile")
     if p['flags']['FLG_RESID'] == 1: active_flags.append("resid")
+    if p['flags']['FLG_BLEND_FOOT'] == 1: active_flags.append("blend_foot")
 
     flag_suffix = "_".join(active_flags) if active_flags else "basic_output"
     folder_name = f"{p['timing']['FILE_START']}-{p['timing']['FILE_END']}_{flag_suffix}"
@@ -61,6 +62,7 @@ $ENGINE_PATH \\
     -FLG_FOOT       {p['flags']['FLG_FOOT']} \\
     -FLG_FLUX       {p['flags']['FLG_FLUX']} \\
     -FLG_RESID      {p['flags']['FLG_RESID']} \\
+    -FLG_BLEND_FOOT {p['flags']['FLG_BLEND_FOOT']} \\
     -N_XY           {p['output_slices']['N_XY']} \\
     -Z_OUT          {to_str(p['output_slices']['Z_OUT'])} \\
     -N_XZ           {p['output_slices']['N_XZ']} \\
@@ -76,6 +78,9 @@ $ENGINE_PATH \\
     -N_FLUX         {p['flux_resid']['N_FLUX']} \\
     -Z_FLUX         {to_str(p['flux_resid']['Z_FLUX'])} \\
     -Z_RESID        {p['flux_resid']['Z_RESID']} \\
+    -CTR_SENSOR_BLEND {to_str(p['blend_foot']['CTR_SENSOR_BLEND'])} \\
+    -SIZE_SENSOR_BLEND {to_str(p['blend_foot']['SIZE_SENSOR_BLEND'])} \\
+    -Z_BLEND        {p['blend_foot']['Z_BLEND']} \\
     -DIR_DATA       {p['paths']['DIR_DATA']} \\
     -DIR_OUT        {dir_out} \\
     -FNAME_MAP      {p['paths']['FNAME_MAP']} \\

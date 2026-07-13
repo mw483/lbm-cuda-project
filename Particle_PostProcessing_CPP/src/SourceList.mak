@@ -1,4 +1,4 @@
-SRCS += setting.cpp				\
+SRCS += setting.cpp			\
 SRCS += calculation.cpp 	\
 SRCS += function.cpp    	\
 SRCS += num.cpp         	\
@@ -6,4 +6,5 @@ SRCS += density.cpp     	\
 SRCS += profile.cpp     	\
 SRCS += footprint.cpp   	\
 SRCS += flux.cpp        	\
-SRCS += residence.cpp			\
+SRCS += residence.cpp		\
+SRCS += blending_footprint.cpp \
