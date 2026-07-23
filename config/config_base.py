@@ -15,13 +15,13 @@ BASE_PARAMS = {
     },
     "post_processing": {
         "flags": {
-            "FLG_NUM": 1,
+            "FLG_NUM": 0,
             "FLG_DENSITY": 0,
             "FLG_PROFILE": 0,
             "FLG_FOOT": 0,
             "FLG_FLUX": 0,
             "FLG_RESID": 0,
-            "FLG_BLEND_FOOT": 1,
+            "FLG_BLEND_FOOT": 0,
         }
     }
 }

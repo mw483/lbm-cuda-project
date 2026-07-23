@@ -148,6 +148,18 @@ void Set_Value::option_read(char *argv[], Setting& setting) {
 		std::exit(0);
 	}
 
+	if (strcmp(argv[++i], "-FLG_HARVEST_IDS") 	==0) setting.FLG_HARVEST_IDS		= atoi(argv[++i]);
+	else {
+		std::cout << "run.sh is wrong. (FLG_HARVEST_IDS)" 	<< std::endl;
+		std::exit(0);
+	}
+
+	if (strcmp(argv[++i], "-FLG_SENSOR_DENSITY") 	==0) setting.FLG_SENSOR_DENSITY		= atoi(argv[++i]);
+	else {
+		std::cout << "run.sh is wrong. (FLG_SENSOR_DENSITY)" 	<< std::endl;
+		std::exit(0);
+	}
+
 	if (strcmp(argv[++i], "-N_XY") 				==0) setting.N_XY 				= atoi(argv[++i]);
 	else {
 		std::cout << "run.sh is wrong. (N_XY)" 				<< std::endl;
@@ -328,6 +340,9 @@ void Set_Value::output_info () {
 	std::cout << "- Ver.1.2 (2026/07/13)                  -" << std::endl;
 	std::cout << "-  -> ParticleBlendingFootprint         -" << std::endl;
 	std::cout << "-                                       -" << std::endl;
+	std::cout << "- Ver.1.3 (2026/07/23)                  -" << std::endl;
+	std::cout << "-  -> ParticleSensorDensity	          -" << std::endl;
+	std::cout << "-                                       -" << std::endl;
 	std::cout << "-----------------------------------------" << std::endl;
 	std::cout << std::endl;
 
@@ -414,6 +429,8 @@ void Set_Value::output_setting (Setting& setting) {
 	std::string	flg_flux			= "off";
 	std::string	flg_residual	= "off";
 	std::string	flg_blend_foot	= "off";
+	std::string	flg_harvest_ids	= "off";
+	std::string	flg_sensor_density	= "off";
 
 	if (setting.FLG_NUM 		== 1) flg_num 			= "on";
 	if (setting.FLG_DENSITY == 1) flg_density 	= "on";
@@ -422,14 +439,18 @@ void Set_Value::output_setting (Setting& setting) {
 	if (setting.FLG_FLUX 		== 1) flg_flux			= "on";
 	if (setting.FLG_RESID 	== 1) flg_residual 	= "on";
 	if (setting.FLG_BLEND_FOOT 	== 1) flg_blend_foot 	= "on";
+	if (setting.FLG_HARVEST_IDS 	== 1) flg_harvest_ids 	= "on";
+	if (setting.FLG_SENSOR_DENSITY 	== 1) flg_sensor_density 	= "on";
 
-	std::cout << "- Num        : " << flg_num									<< std::endl;
-	std::cout << "- Density    : " << flg_density							<< std::endl;
-	std::cout << "- Profile    : " << flg_profile							<< std::endl;
-	std::cout << "- Footprint  : " << flg_footprint						<< std::endl;
-	std::cout << "- Flux       : " << flg_flux								<< std::endl;
-	std::cout << "- Residual   : " << flg_residual						<< std::endl;
-	std::cout << "- Blending   : " << flg_blend_foot						<< std::endl;
+	std::cout << "- Num        		: " << flg_num									<< std::endl;
+	std::cout << "- Density    		: " << flg_density							<< std::endl;
+	std::cout << "- Profile    		: " << flg_profile							<< std::endl;
+	std::cout << "- Footprint  		: " << flg_footprint						<< std::endl;
+	std::cout << "- Flux       		: " << flg_flux								<< std::endl;
+	std::cout << "- Residual   		: " << flg_residual						<< std::endl;
+	std::cout << "- Blending   		: " << flg_blend_foot						<< std::endl;
+	std::cout << "- HarvestIDs  	: " << flg_harvest_ids						<< std::endl;
+	std::cout << "- SensorDensity   : " << flg_sensor_density						<< std::endl;
 	std::cout << "-----------------------------------------"  << std::endl;
 	std::cout << std::endl;
 }

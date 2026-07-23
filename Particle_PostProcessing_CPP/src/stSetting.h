@@ -32,6 +32,10 @@ struct Setting {
 		int			FLG_FLUX;
 		int			FLG_RESID;
 		int			FLG_BLEND_FOOT;
+		
+		// For density X sensor footprint
+		int			FLG_HARVEST_IDS;
+		int 		FLG_SENSOR_DENSITY;
 	
 		// For density
 		int			N_XY;
@@ -60,6 +64,8 @@ struct Setting {
 		float 		CTR_SENSOR_BLEND[3];
 		float		SIZE_SENSOR_BLEND[3];
 		float 		Z_BLEND;
+
+		// For density X sensor footrpint
 
 		// Directory
 		char*		DIR_DATA;
