@@ -73,6 +73,8 @@ void ParticleBlendingFootprint::track_blending_footprint(float x, float y, float
         return; 
     }
 
+    debug_total_particles_seen++;
+
     // ========================================================
     // GATE A: The Forward Intercept Cache (The "Ascent")
     // ========================================================
@@ -88,6 +90,8 @@ void ParticleBlendingFootprint::track_blending_footprint(float x, float y, float
         // Cache its exact horizontal coordinates.
         cached_x[id] = x;
         cached_y[id] = y;
+
+        debug_cache_writes++; // TRACKER
         
         // Note: For absolute precision, we could interpolate between the previous 
         // time step's (z) and current (z) to find the exact (x,y) at exactly z=20.0, 
@@ -124,6 +128,7 @@ void ParticleBlendingFootprint::track_blending_footprint(float x, float y, float
         
         // 1. Lock the gate so this ID is never counted again
         has_hit_sensor[id] = true;
+        debug_sensor_hits++; // TRACKER
         
         // 2. Did this particle actually cross our blending plane before arriving?
         if (cached_x[id] != -999.0f) {
@@ -134,19 +139,26 @@ void ParticleBlendingFootprint::track_blending_footprint(float x, float y, float
 
             // 3. Map continuous physical coordinates (meters) to discrete grid indices
             int grid_x = (int)(xb / dx);
-            int grid_y = (int)(yb / dy); // Assuming dy exists, or dx if grid is uniform
+            int grid_y = (int)(yb / dx); // Assuming dy exists, or dx if grid is uniform
 
             // Safety boundary check to prevent array index out-of-bounds
             if (grid_x >= 0 && grid_x < nx && grid_y >= 0 && grid_y < ny) {
                 
                 // 4. Increment the spatial cell on our flattened 2D grid matrix
                 blending_grid[grid_x + (grid_y * nx)]++;
+                debug_grid_writes++; // TRACKER
             }
         }
     }
 }
 
 void ParticleBlendingFootprint::output_blending_footprint(Setting& setting) {
+    std::cout << "--- [DIAGNOSTICS] ---" << std::endl;
+    std::cout << "Total Particles Seen: " << debug_total_particles_seen << std::endl;
+    std::cout << "Successfully Cached at Z=" << setting.Z_BLEND << ": " << debug_cache_writes << std::endl;
+    std::cout << "Successfully Hit Sensor Box: " << debug_sensor_hits << std::endl;
+    std::cout << "Successfully Written to Grid: " << debug_grid_writes << std::endl;
+    std::cout << "---------------------" << std::endl;
     
     // We only have one sensor in this prototype, but we pull its coords 
     // for the filename so you know exactly which sensor this map belongs to.

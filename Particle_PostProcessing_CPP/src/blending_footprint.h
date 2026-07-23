@@ -27,9 +27,19 @@ class ParticleBlendingFootprint {
         int nx;
         int ny;
         float dx;
-        float dy;
 
     public:
+        long long debug_total_particles_seen;
+        long long debug_cache_writes;
+        long long debug_sensor_hits;
+        long long debug_grid_writes;
+
+        ParticleBlendingFootprint()
+            : debug_total_particles_seen(0),
+              debug_cache_writes(0),
+              debug_sensor_hits(0),
+              debug_grid_writes(0)
+        {}
         // --- Core Pipeline Hooks ---
         void allocate_blending(Setting& setting);
         void track_blending_footprint(float x, float y, float z, int id, Setting& setting);
