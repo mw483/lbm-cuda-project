@@ -66,6 +66,9 @@ struct Setting {
 		float 		Z_BLEND;
 
 		// For density X sensor footrpint
+		int 		N_SENSOR_DENSITY;
+    	float* 		CTR_SENSOR_DENSITY;  // Will hold the 99 coordinates (33 sensors * 3 axes)
+    	float 		SIZE_SENSOR_DENSITY[3]; // Will hold the 3 sizes (dx, dy, dz)
 
 		// Directory
 		char*		DIR_DATA;

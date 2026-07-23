@@ -293,6 +293,31 @@ void Set_Value::option_read(char *argv[], Setting& setting) {
         std::exit(0);
     }
 
+	// -------------------------------------------------------------
+    // --- NEW ADDITION: Density by Sensor ---
+    // -------------------------------------------------------------
+	if (strcmp(argv[++i], "-N_SENSOR_DENSITY") 		==0) setting.N_SENSOR_DENSITY 		= atoi(argv[++i]);
+	else {
+		std::cout << "run.sh is wrong. (N_SENSOR_DENSITY)" 		<< std::endl;
+		std::exit(0);
+	}
+
+    setting.CTR_SENSOR_DENSITY = new float[setting.N_SENSOR_DENSITY*3];
+	if (strcmp(argv[++i], "-CTR_SENSOR_DENSITY") 	==0) {
+		for (int ii=0; ii<setting.N_SENSOR_DENSITY*3; ii++) setting.CTR_SENSOR_DENSITY[ii] 	= atof(argv[++i]);
+	} else {
+		std::cout << "run.sh is wrong. (CTR_SENSOR_DENSITY)" 		<< std::endl;
+		std::exit(0);
+	}
+
+	if (strcmp(argv[++i], "-SIZE_SENSOR_DENSITY") ==0) {
+		for (int ii=0; ii<3; ii++) 							setting.SIZE_SENSOR_DENSITY[ii] 	= atof(argv[++i]);
+	} else {
+		std::cout << "run.sh is wrong. (SIZE_SENSOR_DENSITY)" 		<< std::endl;
+		std::exit(0);
+	}
+	
+
 	if (strcmp(argv[++i], "-DIR_DATA") 		==0) setting.DIR_DATA 		= argv[++i];
 	else {
 		std::cout << "run.sh is wrong. (DIR_DATA)" 			<< std::endl;
