@@ -16,12 +16,14 @@ def generate_postprocess_sh():
     if p['flags']['FLG_PROFILE'] == 1: active_flags.append("profile")
     if p['flags']['FLG_RESID'] == 1: active_flags.append("resid")
     if p['flags']['FLG_BLEND_FOOT'] == 1: active_flags.append("blend_foot")
+    if p['flags']['FLG_HARVEST_IDS'] == 1: active_flags.append("harvest_ids")
+    if p['flags']['FLG_SENSOR_DENSITY'] == 1: active_flags.append("sensor_density")
 
     flag_suffix = "_".join(active_flags) if active_flags else "basic_output"
     folder_name = f"{p['timing']['FILE_START']}-{p['timing']['FILE_END']}_{flag_suffix}"
 
     # Construct the final DIR_OUT path using a base directory
-    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/sensor_8x8x8/1200-1800_footprint')
+    base_out = p['paths'].get('DIR_OUT', './Particle_PostProcess_Outputs/sensor_40x40x8')
     dir_out = f"{base_out}/{folder_name}"
 
     # Helper function to format arrays for Bash
@@ -63,16 +65,18 @@ $ENGINE_PATH \\
     -FLG_FLUX       {p['flags']['FLG_FLUX']} \\
     -FLG_RESID      {p['flags']['FLG_RESID']} \\
     -FLG_BLEND_FOOT {p['flags']['FLG_BLEND_FOOT']} \\
-    -N_XY           {p['output_slices']['N_XY']} \\
+    -FLG_HARVEST_IDS {p['flags']['FLG_HARVEST_IDS']} \\
+    -FLG_SENSOR_DENSITY {p['flags']['FLG_SENSOR_DENSITY']} \\
+    -N_XY           {int(len(p['output_slices']['Z_OUT']))} \\
     -Z_OUT          {to_str(p['output_slices']['Z_OUT'])} \\
-    -N_XZ           {p['output_slices']['N_XZ']} \\
+    -N_XZ           {int(len(p['output_slices']['Y_OUT']))} \\
     -Y_OUT          {to_str(p['output_slices']['Y_OUT'])} \\
-    -N_YZ           {p['output_slices']['N_YZ']} \\
+    -N_YZ           {int(len(p['output_slices']['X_OUT']))} \\
     -X_OUT          {to_str(p['output_slices']['X_OUT'])} \\
     -H_AVE          {p['footprint_sensors']['H_AVE']} \\
     -N_SOURCE       {p['footprint_sensors']['N_SOURCE']} \\
     -ID_DIGIT       {p['footprint_sensors']['ID_DIGIT']} \\
-    -N_SENSOR       {p['footprint_sensors']['N_SENSOR']} \\
+    -N_SENSOR       {int(len(p['footprint_sensors']['CTR_SENSOR']) // 3)} \\
     -CTR_SENSOR     {to_str(p['footprint_sensors']['CTR_SENSOR'])} \\
     -SIZE_SENSOR    {to_str(p['footprint_sensors']['SIZE_SENSOR'])} \\
     -N_FLUX         {p['flux_resid']['N_FLUX']} \\
@@ -81,6 +85,9 @@ $ENGINE_PATH \\
     -CTR_SENSOR_BLEND {to_str(p['blend_foot']['CTR_SENSOR_BLEND'])} \\
     -SIZE_SENSOR_BLEND {to_str(p['blend_foot']['SIZE_SENSOR_BLEND'])} \\
     -Z_BLEND        {p['blend_foot']['Z_BLEND']} \\
+    -N_SENSOR_DENSITY       {int(len(p['sensor_density']['CTR_SENSOR_DENSITY']) // 3)} \\
+    -CTR_SENSOR_DENSITY     {to_str(p['sensor_density']['CTR_SENSOR_DENSITY'])} \\
+    -SIZE_SENSOR_DENSITY    {to_str(p['sensor_density']['SIZE_SENSOR_DENSITY'])} \\
     -DIR_DATA       {p['paths']['DIR_DATA']} \\
     -DIR_OUT        {dir_out} \\
     -FNAME_MAP      {p['paths']['FNAME_MAP']} \\

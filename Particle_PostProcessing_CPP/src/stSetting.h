@@ -55,7 +55,7 @@ struct Setting {
 
 		// For flux
 		int			N_FLUX;
-		float*	Z_FLUX;
+		float*		Z_FLUX;
 		
 		// For Residence time
 		float		Z_RESID;

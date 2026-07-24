@@ -20,6 +20,7 @@
 #include "flux.h"
 #include "residence.h"
 #include "blending_footprint.h"
+#include "sensor_density.h"
 
 /* ---------- Function Calculation --------- */
 
@@ -119,6 +120,7 @@ void calculation_index (Setting& setting) {
     ParticleFlux                p_flux;
     ParticleResidenceTime       p_resid;
     ParticleBlendingFootprint   p_blend;    // <--- 1. NEW CLASS INSTANCE
+    ParticleSensorDensity       p_sensor_density;
 
     // Struct
     std::vector<Particle_Index> p_index_odd;
@@ -138,6 +140,8 @@ void calculation_index (Setting& setting) {
     const int   flg_flux        = setting.FLG_FLUX;
     const int   flg_resid       = setting.FLG_RESID;
     const int   flg_blend_foot  = setting.FLG_BLEND_FOOT; // <--- 2. NEW FLAG
+    const int   flg_harvest_ids  = setting.FLG_HARVEST_IDS; // <--- 2. NEW FLAG
+    const int   flg_sensor_density  = setting.FLG_SENSOR_DENSITY; // <--- 2. NEW FLAG
 
     const char* dir_data        = setting.DIR_DATA;
 
@@ -149,6 +153,9 @@ void calculation_index (Setting& setting) {
     if (flg_flux        == 1) p_flux.allocate_flux(setting);
     if (flg_resid   == 1) p_resid.allocate_residence(setting);
     if (flg_blend_foot  == 1) p_blend.allocate_blending(setting); // <--- 3. ALLOCATE NEW MEMORY
+    if (flg_harvest_ids  == 1 || flg_sensor_density  == 1) {
+        p_sensor_density.allocate_and_load(setting); // <--- 3. ALLOCATE NEW MEMORY
+    }
 
     std::cout << std::endl;
     
@@ -240,6 +247,8 @@ void calculation_index (Setting& setting) {
                 
                 // <--- 4. NEW LOGIC INJECTION --->
                 if (flg_blend_foot  == 1)                               p_blend.track_blending_footprint(x, y, z, id, setting);
+                if (flg_harvest_ids  == 1)                              p_sensor_density.harvest_ids(x, y, z, id, setting);
+                if (flg_sensor_density  == 1)                           p_sensor_density.cal_sensor_density(x, y, z, id, setting);
     
                 // count
                 n++;
@@ -285,6 +294,9 @@ void calculation_index (Setting& setting) {
     
     // <--- 5. NEW OUTPUT INJECTION --->
     if (flg_blend_foot  == 1) p_blend.output_blending_footprint(setting);
+
+    // <--- 5. NEW OUTPUT INJECTION --->
+    if (flg_harvest_ids == 1 || flg_sensor_density  == 1) p_sensor_density.output_sensor_density(setting);
     
     // Delete
     if (flg_num         == 1) p_num.delete_num(); 
@@ -296,4 +308,7 @@ void calculation_index (Setting& setting) {
     
     // <--- 6. NEW CLEANUP INJECTION --->
     if (flg_blend_foot  == 1) p_blend.delete_blending();
+
+    // <--- 6. NEW CLEANUP INJECTION --->
+    if (flg_harvest_ids == 1 || flg_sensor_density  == 1) p_sensor_density.delete_sensor_density();
 }

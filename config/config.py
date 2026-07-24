@@ -2,7 +2,7 @@
 import sys
 
 # Master Control Switch: Set to "LAB" or "TSUBAME"
-TARGET_ENV = "TSUBAME"
+TARGET_ENV = "LAB"
 
 from .config_base import BASE_PARAMS
 

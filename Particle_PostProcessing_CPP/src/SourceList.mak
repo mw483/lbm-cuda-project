@@ -8,3 +8,5 @@ SRCS += footprint.cpp   	\
 SRCS += flux.cpp        	\
 SRCS += residence.cpp		\
 SRCS += blending_footprint.cpp \
+SRCS += sensor_density.cpp \
+

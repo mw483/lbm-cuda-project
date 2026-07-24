@@ -22,6 +22,8 @@ BASE_PARAMS = {
             "FLG_FLUX": 0,
             "FLG_RESID": 0,
             "FLG_BLEND_FOOT": 0,
+            "FLG_HARVEST_IDS": 0,
+            "FLG_SENSOR_DENSITY": 1
         }
     }
 }
