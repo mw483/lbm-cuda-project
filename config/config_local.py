@@ -3,7 +3,7 @@ import numpy as np
 
 ENV_PARAMS = {
     "map": {
-        "path": "./map/map_02_full_roughness.dat",
+        "path": "./map/map_01_flat_plane.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
@@ -38,8 +38,8 @@ ENV_PARAMS = {
         }
     },
     "automatic_transfer": {
-        "DEST_CSV": "./20260612_output_cube_3072",
-        "DEST_PAR": "./20260612_particle_cube_3072"
+        "DEST_CSV": "./20260527_output_flat_3072",
+        "DEST_PAR": "./20260527_particle_flat_3072"
     },
     "read_particle_box": {
         "pstart": 1200,
@@ -74,7 +74,7 @@ ENV_PARAMS = {
             "NUM_GEN": 1843200
         },
         "output_slices": {
-            "Z_OUT": [52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158],
+            "Z_OUT": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158],
             "Y_OUT": [128],
             "X_OUT": [600]
         },
@@ -167,10 +167,10 @@ ENV_PARAMS = {
             "SIZE_SENSOR_DENSITY": [40, 40, 8]
         },
         "paths": {
-            "DIR_DATA": "./20260612_particle_cube_3072",
-            "DIR_OUT": "./Particle_PostProcess_Outputs/20260612_particle_cube_3072/sensor_40x40x8",
-            "FNAME_MAP": "./map/map_02_full_roughness.dat",
-            "FNAME_SOURCE": "./particle_position/pos_cube_3072.txt"
+            "DIR_DATA": "./20260527_particle_flat_3072",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260527_particle_flat_3072/sensor_40x40x8",
+            "FNAME_MAP": "./map/map_01_flat_plane.dat",
+            "FNAME_SOURCE": "./particle_position/pos_flat_3072.txt"
         }
     }
 }

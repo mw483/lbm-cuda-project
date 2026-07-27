@@ -45,11 +45,11 @@ mpirun -x LD_LIBRARY_PATH -npernode 4 -n 4 ./run \
 echo "Simulation ended. Commencing automatic folder organization..."
 
 # Create target directory trees
-mkdir -p "./20260630_output_flat_16mapproach"
-mkdir -p "./20260630_particle_flat_16mapproach"
+mkdir -p "./20260727_output_cube_16mapproach"
+mkdir -p "./20260727_particle_cube_16mapproach"
 
 # Move files out of default staging directories safely
-mv ./Output/* "./20260630_output_flat_16mapproach/" 2>/dev/null
-mv ./result_particle_scatter_binary/* "./20260630_particle_flat_16mapproach/" 2>/dev/null
+mv ./Output/* "./20260727_output_cube_16mapproach/" 2>/dev/null
+mv ./result_particle_scatter_binary/* "./20260727_particle_cube_16mapproach/" 2>/dev/null
 
 echo "Automatic data transfer complete."
