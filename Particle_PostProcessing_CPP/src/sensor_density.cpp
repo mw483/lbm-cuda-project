@@ -246,6 +246,10 @@ void ParticleSensorDensity::output_sensor_density(Setting& setting) {
 
         for (int s = 0; s < n_sensor; s++) {
             std::cout << "\n--- Processing outputs for Sensor " << s << " ---" << std::endl;
+
+            float x_s = setting.CTR_SENSOR_DENSITY[3*s];
+            float y_s = setting.CTR_SENSOR_DENSITY[3*s+1];
+            float z_s = setting.CTR_SENSOR_DENSITY[3*s+2];
             
             // ---------------- XY PLANES ----------------
             for (int i = 0; i < n_slice_xy; i++) {
@@ -256,7 +260,7 @@ void ParticleSensorDensity::output_sensor_density(Setting& setting) {
                 std::fstream dFile;
                 char densityFile[256];
                 // We add the sensor ID to the filename so Python can identify them!
-                sprintf(densityFile, "./%s/sensor_%d_xy_number_density_%dm.csv", dir_out, s, (int)zi_out);
+                sprintf(densityFile, "./%s/sensor_%d_%d_%d_xy_number_density_%dm.csv", dir_out, (int)x_s, (int)y_s, (int)z_s, (int)zi_out);
                 dFile.open(densityFile, std::ios::out);
                 
                 if (!dFile.is_open()) {
@@ -290,7 +294,7 @@ void ParticleSensorDensity::output_sensor_density(Setting& setting) {
                 std::fstream dFile;
                 char densityFile[256];
                 // We add the sensor ID to the filename so Python can identify them!
-                sprintf(densityFile, "./%s/sensor_%d_xz_number_density_%dm.csv", dir_out, s, (int)yi_out);
+                sprintf(densityFile, "./%s/sensor_%d_%d_%d_xz_number_density_%dm.csv", dir_out, (int)x_s, (int)y_s, (int)z_s, (int)yi_out);
                 dFile.open(densityFile, std::ios::out);
 
                 if (!dFile.is_open()) {
@@ -324,7 +328,7 @@ void ParticleSensorDensity::output_sensor_density(Setting& setting) {
                 std::fstream dFile;
                 char densityFile[256];
                 // We add the sensor ID to the filename so Python can identify them!
-                sprintf(densityFile, "./%s/sensor_%d_yz_number_density_%dm.csv", dir_out, s, (int)xi_out);
+                sprintf(densityFile, "./%s/sensor_%d_%d_%d_yz_number_density_%dm.csv", dir_out, (int)x_s, (int)y_s, (int)z_s, (int)xi_out);
                 dFile.open(densityFile, std::ios::out);
 
                 if (!dFile.is_open()) {
