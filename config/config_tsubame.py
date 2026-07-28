@@ -3,7 +3,7 @@ import numpy as np
 
 ENV_PARAMS = {
     "map": {
-        "path": "./map/map_cube_16m_approach.dat",
+        "path": "./map/map_flat_16m_approach.dat",
         "physical_dx": 2.0
     },
     "runlbm.sh": {
@@ -57,8 +57,8 @@ ENV_PARAMS = {
         }
     },
     "automatic_transfer": {
-        "DEST_CSV": "./20260727_output_cube_16mapproach",
-        "DEST_PAR": "./20260727_particle_cube_16mapproach"
+        "DEST_CSV": "./20260630_output_flat_16mapproach",
+        "DEST_PAR": "./20260630_particle_flat_16mapproach"
     },
     "read_particle_box": {
         # Shifted upwind start position due to the extended approach fetch
@@ -254,45 +254,21 @@ ENV_PARAMS = {
         },
         "sensor_density": {
             "CTR_SENSOR_DENSITY": [3672, 0, 90, 
-                                   3672, 8, 90, 
-                                   3672, 16, 90,
-                                   3672, 24, 90, 
-                                   3672, 32, 90, 
-                                   3672, 40, 90,
-                                   3672, 48, 90, 
-                                   3672, 56, 90, 
                                    3672, 64, 90,
-                                   3672, 72, 90, 
-                                   3672, 80, 90, 
-                                   3672, 88, 90,
-                                   3672, 96, 90, 
-                                   3672, 104, 90, 
-                                   3672, 112, 90,
-                                   3672, 120, 90, 
                                    3672, 128, 90, 
-                                   3672, 136, 90,
-                                   3672, 144, 90, 
-                                   3672, 152, 90, 
-                                   3672, 160, 90,
-                                   3672, 168, 90, 
-                                   3672, 176, 90, 
-                                   3672, 184, 90,
-                                   3672, 192, 90,
-                                   3672, 200, 90,
-                                   3672, 208, 90,
-                                   3672, 216, 90,
-                                   3672, 224, 90,
-                                   3672, 232, 90,
-                                   3672, 240, 90,
-                                   3672, 248, 90,
+                                   3672, 192, 90, 
                                    3672, 256, 90,
+                                   3672, 320, 90,
+                                   3672, 384, 90,
+                                   3672, 448, 90,
+                                   3672, 512, 90,
                                    ],
-            "SIZE_SENSOR_DENSITY": [40, 40, 8]
+            "SIZE_SENSOR_DENSITY": [8, 8, 8]
         },
         "paths": {
-            "DIR_DATA": "./20260727_particle_cube_16mapproach",
-            "DIR_OUT": "./Particle_PostProcess_Outputs/20260727_particle_cube_16mapproach/sensor_40x40x8",
-            "FNAME_MAP": "./map/map_cube_16m_approach.dat",
+            "DIR_DATA": "./20260630_particle_flat_16mapproach",
+            "DIR_OUT": "./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_8x8x8",
+            "FNAME_MAP": "./map/map_flat_16m_approach.dat",
             "FNAME_SOURCE": "./particle_position/pos_tsubame_flat.txt"
         }
     }

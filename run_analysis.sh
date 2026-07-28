@@ -5,7 +5,7 @@ export OMP_NUM_THREADS=4
 ENGINE_PATH="./Particle_PostProcessing_CPP/src/run_analysis"
 
 # Automatically create the output directory before running
-mkdir -p "./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_40x40x8/1200-1800_harvest_ids"
+mkdir -p "./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_8x8x8/1200-1800_harvest_ids"
 
 # Execute the analysis
 $ENGINE_PATH \
@@ -33,8 +33,8 @@ $ENGINE_PATH \
     -FLG_BLEND_FOOT 0 \
     -FLG_HARVEST_IDS 1 \
     -FLG_SENSOR_DENSITY 0 \
-    -N_XY           32 \
-    -Z_OUT          2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 40 42 44 46 48 50 60 70 80 90 100 120 140 160 \
+    -N_XY           79 \
+    -Z_OUT          2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 102 104 106 108 110 112 114 116 118 120 122 124 126 128 130 132 134 136 138 140 142 144 146 148 150 152 154 156 158 \
     -N_XZ           5 \
     -Y_OUT          250 252 254 256 258 \
     -N_YZ           1 \
@@ -51,11 +51,11 @@ $ENGINE_PATH \
     -CTR_SENSOR_BLEND 3672 256 30 \
     -SIZE_SENSOR_BLEND 40 40 8 \
     -Z_BLEND        30 \
-    -N_SENSOR_DENSITY       33 \
-    -CTR_SENSOR_DENSITY     3672 0 90 3672 8 90 3672 16 90 3672 24 90 3672 32 90 3672 40 90 3672 48 90 3672 56 90 3672 64 90 3672 72 90 3672 80 90 3672 88 90 3672 96 90 3672 104 90 3672 112 90 3672 120 90 3672 128 90 3672 136 90 3672 144 90 3672 152 90 3672 160 90 3672 168 90 3672 176 90 3672 184 90 3672 192 90 3672 200 90 3672 208 90 3672 216 90 3672 224 90 3672 232 90 3672 240 90 3672 248 90 3672 256 90 \
-    -SIZE_SENSOR_DENSITY    40 40 8 \
+    -N_SENSOR_DENSITY       9 \
+    -CTR_SENSOR_DENSITY     3672 0 90 3672 64 90 3672 128 90 3672 192 90 3672 256 90 3672 320 90 3672 384 90 3672 448 90 3672 512 90 \
+    -SIZE_SENSOR_DENSITY    8 8 8 \
     -DIR_DATA       ./20260630_particle_flat_16mapproach \
-    -DIR_OUT        ./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_40x40x8/1200-1800_harvest_ids \
+    -DIR_OUT        ./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_8x8x8/1200-1800_harvest_ids \
     -FNAME_MAP      ./map/map_flat_16m_approach.dat \
     -FNAME_SOURCE   ./particle_position/pos_tsubame_flat.txt \
-    | tee -a "./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_40x40x8/1200-1800_harvest_ids/log_analysis.txt"
+    | tee -a "./Particle_PostProcess_Outputs/20260630_particle_flat_16mapproach/sensor_8x8x8/1200-1800_harvest_ids/log_analysis.txt"

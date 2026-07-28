@@ -1,7 +1,7 @@
 # deploy.ps1
 param (
     [ValidateSet("Lab", "TSUBAME")]
-    [string]$Target = "Lab"
+    [string]$Target = "TSUBAME"
 )
 
 $sourcePath = "./"
