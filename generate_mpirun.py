@@ -33,6 +33,7 @@ def generate_mpirun_sh(params, nx, ny):
 
 rm -f run
 ln -s ./src/run
+chmod 755 ./src/run
 
 ulimit -c unlimited
 . /etc/profile.d/modules.sh
